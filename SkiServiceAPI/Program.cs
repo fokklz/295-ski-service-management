@@ -36,6 +36,7 @@ namespace SkiServiceAPI
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
+            // Setup swagger to allow Authorization
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SkiService Management API", Version = "v1" });
@@ -91,6 +92,7 @@ namespace SkiServiceAPI
 
             app.UseHttpsRedirection();
 
+            // Add Auth
             app.UseAuthentication();
             app.UseAuthorization();
 
