@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using SkiServiceAPI.DTOs.Requests;
 using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
+using SkiServiceAPI.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceAPI.Controllers
 {
 
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("/api/users")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -32,7 +32,7 @@ namespace SkiServiceAPI.Controllers
                 return Unauthorized("Invalid Credentials");
             }
 
-            var token = _tokenService.CreateToken(model.Username);
+            var token = _tokenService.CreateToken(model.Username, _userService.GetRole(model.Username));
             return Ok(new LoginResponse()
             {
                 Username = model.Username,
@@ -41,19 +41,14 @@ namespace SkiServiceAPI.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize]
+        [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult create([FromBody] LoginRequest model)
         {
             _userService.CreateUser(model.Username, model.Password);
-
-            var token = _tokenService.CreateToken(model.Username);
-            return Ok(new LoginResponse()
-            {
-                Username = model.Username,
-                Token = token
-            });
+            return Ok();
         }
     }
 }

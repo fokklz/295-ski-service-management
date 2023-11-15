@@ -27,7 +27,7 @@ namespace SkiServiceAPI
             builder.Logging.AddSerilog(LoggerFromSettings);
 
             // Connect to default configured database
-            builder.Services.AddDbContext<ApplicationDBContext>(options =>
+            builder.Services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddSingleton<ITokenService, TokenService>();
@@ -98,7 +98,32 @@ namespace SkiServiceAPI
 
             app.MapControllers();
 
+            SeedUsers(app.Services).Wait();
+
             app.Run();
+        }
+
+        static async Task SeedUsers(IServiceProvider services)
+        {
+            using var scope = services.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+            var dbContext = scopedServices.GetRequiredService<IApplicationDBContext>();
+            var usermanager = scopedServices.GetRequiredService<IUserService>();
+
+            if (!dbContext.Users.Any())
+            {
+                usermanager.CreateUser("Superadmin", "super", RoleNames.SuperAdmin);
+                usermanager.CreateUser("Mitarbeiter 1", "m1");
+                usermanager.CreateUser("Mitarbeiter 2", "m2");
+                usermanager.CreateUser("Mitarbeiter 3", "m3");
+                usermanager.CreateUser("Mitarbeiter 4", "m4");
+                usermanager.CreateUser("Mitarbeiter 5", "m5");
+                usermanager.CreateUser("Mitarbeiter 6", "m6");
+                usermanager.CreateUser("Mitarbeiter 7", "m7");
+                usermanager.CreateUser("Mitarbeiter 8", "m8");
+                usermanager.CreateUser("Mitarbeiter 9", "m9");
+                usermanager.CreateUser("Mitarbeiter 10", "m10");
+            }
         }
     }
 }

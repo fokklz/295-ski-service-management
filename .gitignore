@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 SkiServiceAPI/Migrations/*
+SkiServiceAPI/Logs/*

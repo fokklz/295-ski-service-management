@@ -13,7 +13,7 @@ namespace SkiServiceAPI.Services
             _context = context;
         }
 
-        public void CreateUser(string username, string password)
+        public void CreateUser(string username, string password, RoleNames role = RoleNames.Mitarbeiter)
         {
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -21,11 +21,19 @@ namespace SkiServiceAPI.Services
             {
                 Username = username,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Role = role
             };
 
             _context.Users.Add(user);
             _context.SaveChanges();
+        }
+
+        public RoleNames GetRole(string username)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null) return RoleNames.Mitarbeiter;
+            return user.Role;
         }
 
         public bool VerifyPassword(string username, string password)

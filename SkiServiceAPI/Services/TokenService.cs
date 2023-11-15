@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using SkiServiceAPI.Data;
 using SkiServiceAPI.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,12 +15,13 @@ namespace SkiServiceAPI.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]));
         }
 
-        public string CreateToken(string username)
+        public string CreateToken(string username, RoleNames role)
         {
             //Creating Claims. You can add more information in these claims. For example email id.
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, username)
+                new Claim(JwtRegisteredClaimNames.NameId, username),
+                new Claim(ClaimTypes.Role, role.ToString())
             };
 
             //Creating credentials. Specifying which type of Security Algorithm we are using
