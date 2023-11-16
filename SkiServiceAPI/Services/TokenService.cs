@@ -4,6 +4,7 @@ using SkiServiceAPI.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using SkiServiceAPI.DTOs;
 
 namespace SkiServiceAPI.Services
 {
@@ -12,15 +13,18 @@ namespace SkiServiceAPI.Services
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config)
         {
+#pragma warning disable CS8604 // Mögliches Nullverweisargument.
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]));
+#pragma warning restore CS8604 // Mögliches Nullverweisargument.
         }
 
-        public string CreateToken(string username, RoleNames role)
+        public TokenData CreateToken(string id, string username, RoleNames role)
         {
             //Creating Claims. You can add more information in these claims. For example email id.
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, username),
+                new Claim(JwtRegisteredClaimNames.NameId, id),
+                new Claim(ClaimTypes.NameIdentifier, username),
                 new Claim(ClaimTypes.Role, role.ToString())
             };
 
@@ -40,7 +44,10 @@ namespace SkiServiceAPI.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             //Finally returning the created token
-            return tokenHandler.WriteToken(token);
+            return new TokenData { 
+                Token = tokenHandler.WriteToken(token),
+                Expires = token.ValidTo
+            };
         }
     }
 }

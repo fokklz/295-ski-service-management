@@ -5,50 +5,84 @@ using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Data;
 using System.ComponentModel.DataAnnotations;
+using SkiServiceAPI.Common;
+using SkiServiceAPI.Models;
+using System.Security.Claims;
 
 namespace SkiServiceAPI.Controllers
 {
-
-    [ApiController]
-    [Route("/api/users")]
-    public class UsersController : ControllerBase
+    /// <summary>
+    /// User Controller for CRUD operations
+    /// Implements the Generic Controller for Users to infer the basic CRUD operations
+    /// </summary>
+    public class UsersController : GenericController<User, UserResponse, UpdateUserRequest, CreateUserRequest>
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
 
-        public UsersController(IUserService userService, ITokenService tokenService)
+        public UsersController(IUserService userService, ITokenService tokenService): base(userService)
         {
             _userService = userService;
             _tokenService = tokenService;
         }
 
+        /// <summary>
+        /// Allow a user to get their own information based on the submitted token
+        /// </summary>
+        /// <returns>UserResponse</returns>
+        [HttpGet("me")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Me()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userInfo = await _userService.GetAsync(int.Parse(userId));
+
+            return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.Message);
+        }
+
+        /// <summary>
+        /// Login a user and return a token along with their information
+        /// </summary>
+        /// <param name="model">LoginRequest</param>
+        /// <returns>LoginResponse</returns>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult Login([FromBody] LoginRequest model)
+        public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
-            if (!_userService.VerifyPassword(model.Username, model.Password))
+            var result = await _userService.VerifyPasswordAsync(model.Username, model.Password);
+            if (result == null || result.Locked)
             {
                 return Unauthorized("Invalid Credentials");
             }
 
-            var token = _tokenService.CreateToken(model.Username, _userService.GetRole(model.Username));
+            var token = _tokenService.CreateToken(result.Id.ToString(), model.Username, result.Role);
             return Ok(new LoginResponse()
             {
-                Username = model.Username,
-                Token = token
+                Id = result.Id,
+                Username = result.Username,
+                Locked = result.Locked,
+                Role = result.Role,
+                Auth = token
             });
         }
-
-        [HttpPost("create")]
-        [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+        
+        /// <summary>
+        /// Allow others to unlock locked users
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/unlock")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public IActionResult create([FromBody] LoginRequest model)
+        public async Task<IActionResult> Unlock(int id)
         {
-            _userService.CreateUser(model.Username, model.Password);
-            return Ok();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == id.ToString()) return Unauthorized("You cannot unlock yourself");
+
+            var result = await _userService.UnlockAsync(id);
+            return result.IsOk ? Ok() : BadRequest(result.Message);
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace SkiServiceAPI.DTOs.Responses
-{
-    public class LoginResponse
-    {
-        public string Username { get; set; }
+﻿using SkiServiceAPI.DTOs.Requests;
 
-        public string Token { get; set; }
+namespace SkiServiceAPI.DTOs.Responses
+{
+    /// <summary>
+    /// Login Response DTO
+    /// </summary>
+    public class LoginResponse : UserResponse
+    {
+        public TokenData Auth { get; set; }
     }
 }

@@ -17,9 +17,6 @@ namespace SkiServiceAPI.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<Order> Orders { get; set; }
 
-        // Define your DbSets (tables) here
-        // public DbSet<YourModel> YourModels { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

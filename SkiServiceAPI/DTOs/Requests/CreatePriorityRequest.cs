@@ -3,14 +3,15 @@
 namespace SkiServiceAPI.DTOs.Requests
 {
     /// <summary>
-    /// Login Request DTO
+    /// Create Priority Request DTO
     /// </summary>
-    public class LoginRequest
+    public class CreatePriorityRequest
     {
-        [Required]
-        public string Username { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string Name { get; set; }
+
+        [Required]
+        public int Days { get; set; }
     }
 }

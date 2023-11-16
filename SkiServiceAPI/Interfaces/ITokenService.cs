@@ -1,9 +1,10 @@
 ﻿using SkiServiceAPI.Data;
+using SkiServiceAPI.DTOs;
 
 namespace SkiServiceAPI.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(string username, RoleNames role);
+        TokenData CreateToken(string id, string username, RoleNames role);
     }
 }

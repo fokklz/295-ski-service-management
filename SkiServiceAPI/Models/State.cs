@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceAPI.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceAPI.Models
 {
-    public class State
+    public class State : IGenericModel
     {
 
         [Key]
@@ -12,5 +13,14 @@ namespace SkiServiceAPI.Models
         [StringLength(20)]
         public string Name { get; set; }
 
+        public Task<bool> ValidateAsync()
+        {
+            if(string.IsNullOrEmpty(Name) || Name.Length > 20)
+            {
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
+        }
     }
 }

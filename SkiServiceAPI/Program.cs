@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using SkiServiceAPI.Common;
+using SkiServiceAPI.Common.OpenAPI;
 using SkiServiceAPI.Data;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Services;
@@ -23,8 +25,16 @@ namespace SkiServiceAPI
                 .ReadFrom.Configuration(builder.Configuration)
                 .Enrich.FromLogContext()
                 .CreateLogger();
+
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(LoggerFromSettings);
+
+            builder.Services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Connect to default configured database
             builder.Services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
@@ -33,9 +43,12 @@ namespace SkiServiceAPI
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddScoped(typeof(GenericService<,,>));
+            builder.Services.AddScoped(typeof(IBaseService<,,,>), typeof(GenericService<,,,>));
 
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+
             // Setup swagger to allow Authorization
             builder.Services.AddSwaggerGen(c =>
             {
@@ -63,12 +76,16 @@ namespace SkiServiceAPI
                         new string[] {}
                     }
                 });
+
+                c.OperationFilter<GenericResponseOperationFilter>();
+                c.DocumentFilter<SortPathsByLengthDocumentFilter>();
             });
 
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+#pragma warning disable CS8604 // Mögliches Nullverweisargument.
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -78,6 +95,7 @@ namespace SkiServiceAPI
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+#pragma warning restore CS8604 // Mögliches Nullverweisargument.
                 });
 
 
@@ -92,9 +110,15 @@ namespace SkiServiceAPI
 
             app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
             // Add Auth
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapControllers();
 
@@ -103,6 +127,12 @@ namespace SkiServiceAPI
             app.Run();
         }
 
+        /// <summary>
+        /// Create a intial collection of Users to ensure the Application can be propperly used
+        /// The "Superadmin" login should be provided to the Customer
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         static async Task SeedUsers(IServiceProvider services)
         {
             using var scope = services.CreateScope();
@@ -112,17 +142,17 @@ namespace SkiServiceAPI
 
             if (!dbContext.Users.Any())
             {
-                usermanager.CreateUser("Superadmin", "super", RoleNames.SuperAdmin);
-                usermanager.CreateUser("Mitarbeiter 1", "m1");
-                usermanager.CreateUser("Mitarbeiter 2", "m2");
-                usermanager.CreateUser("Mitarbeiter 3", "m3");
-                usermanager.CreateUser("Mitarbeiter 4", "m4");
-                usermanager.CreateUser("Mitarbeiter 5", "m5");
-                usermanager.CreateUser("Mitarbeiter 6", "m6");
-                usermanager.CreateUser("Mitarbeiter 7", "m7");
-                usermanager.CreateUser("Mitarbeiter 8", "m8");
-                usermanager.CreateUser("Mitarbeiter 9", "m9");
-                usermanager.CreateUser("Mitarbeiter 10", "m10");
+                await usermanager.CreateSeed("Superadmin", "super", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 1", "m1");
+                await usermanager.CreateSeed("Mitarbeiter 2", "m2");
+                await usermanager.CreateSeed("Mitarbeiter 3", "m3");
+                await usermanager.CreateSeed("Mitarbeiter 4", "m4");
+                await usermanager.CreateSeed("Mitarbeiter 5", "m5");
+                await usermanager.CreateSeed("Mitarbeiter 6", "m6");
+                await usermanager.CreateSeed("Mitarbeiter 7", "m7");
+                await usermanager.CreateSeed("Mitarbeiter 8", "m8");
+                await usermanager.CreateSeed("Mitarbeiter 9", "m9");
+                await usermanager.CreateSeed("Mitarbeiter 10", "m10");
             }
         }
     }

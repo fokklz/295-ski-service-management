@@ -9,11 +9,8 @@ namespace SkiServiceAPI.Models
 
         // Foreign keys
         public int ServiceId { get; set; }
-
         public int PriorityId { get; set; }
-
         public int StateId { get; set; }
-
         public int UserId { get; set; }
 
         // Navigation properties

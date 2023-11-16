@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceAPI.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceAPI.Models
 {
-    public class Service
+    public class Service : IGenericModel
     {
         [Key]
         public int Id { get; set; }
@@ -17,5 +18,24 @@ namespace SkiServiceAPI.Models
 
         public int Price { get; set; }
 
+        public Task<bool> ValidateAsync()
+        {
+            if(string.IsNullOrEmpty(Name) || Name.Length > 50)
+            {
+                return Task.FromResult(false);
+            }
+
+            if(string.IsNullOrEmpty(Description) || Description.Length > 1000)
+            {
+                return Task.FromResult(false);
+            }
+
+            if(Price <= 0)
+            {
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
+        }
     }
 }
