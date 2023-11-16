@@ -13,6 +13,8 @@ namespace SkiServiceAPI.Models
         [StringLength(20)]
         public string Name { get; set; }
 
+        // just for the moment, should be removed later since this is not SOLID
+        // did not find a satisfying solution yet - did not search eather haha
         public Task<bool> ValidateAsync()
         {
             if(string.IsNullOrEmpty(Name) || Name.Length > 20)

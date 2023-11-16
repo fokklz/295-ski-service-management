@@ -60,7 +60,7 @@ namespace SkiServiceAPI.Common
         [HttpPost]
         [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Create([FromBody] TCreate entity)
+        public virtual async Task<IActionResult> Create([FromBody] TCreate entity)
         {
             var result = await _service.CreateAsync(entity);
             return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);

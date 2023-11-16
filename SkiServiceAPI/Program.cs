@@ -38,13 +38,15 @@ namespace SkiServiceAPI
 
             // Connect to default configured database
             builder.Services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddScoped(typeof(GenericService<,,>));
             builder.Services.AddScoped(typeof(IBaseService<,,,>), typeof(GenericService<,,,>));
+
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

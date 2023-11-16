@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SkiServiceAPI.DTOs;
 using SkiServiceAPI.DTOs.Requests;
+using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
 using SkiServiceAPI.Services;
@@ -26,6 +27,7 @@ namespace SkiServiceAPI.Common
             CreateMap<Service, Service>();
             CreateMap<State, State>();
             CreateMap<Priority, Priority>();
+            CreateMap<Order, OrderResponse>();
 
             //########################################################
             //
@@ -49,6 +51,10 @@ namespace SkiServiceAPI.Common
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<CreateOrderRequest, Order>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<UpdatePriorityRequest, Priority>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -62,6 +68,10 @@ namespace SkiServiceAPI.Common
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<UpdateUserRequest, User>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<UpdateOrderRequest, Order>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 

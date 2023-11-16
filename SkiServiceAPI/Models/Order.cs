@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceAPI.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceAPI.Models
 {
-    public class Order
+    public class Order : IGenericModel
     {
         [Key]
         public int Id { get; set; }
@@ -11,23 +12,20 @@ namespace SkiServiceAPI.Models
         public int ServiceId { get; set; }
         public int PriorityId { get; set; }
         public int StateId { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; } = null;
 
         // Navigation properties
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
         public virtual Service Service { get; set; }
         public virtual Priority Priority { get; set; }
         public virtual State State { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string Phone { get; set; }
 
@@ -38,6 +36,9 @@ namespace SkiServiceAPI.Models
 
         public bool Deleted { get; set; } = false;
 
-        
+        public Task<bool> ValidateAsync()
+        {
+            return Task.FromResult(true);
+        }
     }
 }
