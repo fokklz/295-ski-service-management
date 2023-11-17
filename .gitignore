@@ -362,5 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-SkiServiceAPI/Migrations/*
 SkiServiceAPI/Logs/*
+Logs/*
+SkiServiceAPI/Migrations/*

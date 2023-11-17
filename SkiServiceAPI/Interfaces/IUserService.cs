@@ -9,6 +9,6 @@ namespace SkiServiceAPI.Interfaces
     {
         Task CreateSeed(string username, string password, RoleNames role = RoleNames.Mitarbeiter);
         Task<TaskResult<UserResponse>> UnlockAsync(int id);
-        Task<User?> VerifyPasswordAsync(string username, string password);
+        Task<LoginResult> VerifyPasswordAsync(string username, string password);
     }
-}
+}   

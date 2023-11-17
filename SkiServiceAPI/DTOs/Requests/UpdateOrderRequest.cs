@@ -4,7 +4,10 @@ namespace SkiServiceAPI.DTOs.Requests
 {
     public class UpdateOrderRequest
     {
+        public int? ServiceId { get; set; }
+
         public int? PriorityId { get; set; }
+
         public int? StateId { get; set; }
 
         public int? UserId { get; set; }
@@ -21,7 +24,9 @@ namespace SkiServiceAPI.DTOs.Requests
         public string? Phone { get; set; }
 
         [StringLength(1000)]
-        public string? Note { get; set; }
+        public string? Note { get; set; } = null;
+
+        public DateTime? Created { get; set; }
 
         public bool? Deleted { get; set; }
     }

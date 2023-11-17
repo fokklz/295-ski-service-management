@@ -9,6 +9,7 @@ namespace SkiServiceAPI.DTOs.Requests
     {
 
         [Required]
+        [StringLength(20)]
         public string Name { get; set; }
     }
 }

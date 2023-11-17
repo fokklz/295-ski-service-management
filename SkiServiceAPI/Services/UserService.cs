@@ -34,6 +34,7 @@ namespace SkiServiceAPI.Services
             if (user == null) return TaskResult<UserResponse>.Error("Entry not Found");
             if (!user.Locked) return TaskResult<UserResponse>.Error("User is not locked");
 
+
             user.Locked = false;
             await _context.SaveChangesAsync();
             return TaskResult<UserResponse>.Success(null);
@@ -81,9 +82,6 @@ namespace SkiServiceAPI.Services
                 user.PasswordSalt = passwordSalt;
             }
 
-            bool valid = await user.ValidateAsync();
-            if (!valid) return TaskResult<UserResponse>.Error("Invalid User");
-
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -118,19 +116,37 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="username">The Username</param>
         /// <param name="password">The Password</param>
-        /// <returns>The user if valid else NULL</returns>
-        public async Task<User?> VerifyPasswordAsync(string username, string password)
+        /// <returns>LoginResult(User User?, bool Result)</returns>
+        public async Task<LoginResult> VerifyPasswordAsync(string username, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null) return null;
+            if (user == null) return new LoginResult {
+                User = null,
+                Result = false
+            };
 
             if(VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                return user;
+                user.LoginAttempts = 0;
+                await _context.SaveChangesAsync();
+                return new LoginResult {
+                    User = user,
+                    Result = true
+                };
             }
             else
             {
-                return null;
+                user.LoginAttempts++;
+                if (user.LoginAttempts >= 3)
+                {
+                    user.Locked = true;
+                }
+                await _context.SaveChangesAsync();
+                return new LoginResult
+                {
+                    User = user,
+                    Result = false
+                };
             }
         }
 

@@ -9,9 +9,11 @@ namespace SkiServiceAPI.DTOs.Requests
     {
 
         [Required]
+        [StringLength(20)]
         public string Name { get; set; }
 
         [Required]
+        [Range(1, 365)]
         public int Days { get; set; }
     }
 }

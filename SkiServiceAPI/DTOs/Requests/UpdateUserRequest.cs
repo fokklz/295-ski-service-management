@@ -8,6 +8,7 @@ namespace SkiServiceAPI.DTOs.Requests
     /// </summary>
     public class UpdateUserRequest
     {
+        [StringLength(50)]
         public string? Username { get; set; }
 
         public string? Password { get; set; }

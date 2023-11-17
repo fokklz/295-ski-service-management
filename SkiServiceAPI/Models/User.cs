@@ -24,16 +24,6 @@ namespace SkiServiceAPI.Models
 
         public RoleNames Role { get; set; } = RoleNames.Mitarbeiter;
 
-        // just for the moment, should be removed later since this is not SOLID
-        // did not find a satisfying solution yet - did not search eather haha
-        public Task<bool> ValidateAsync()
-        {
-            if(string.IsNullOrEmpty(Username) || Username.Length > 50)
-            {
-                return Task.FromResult(false);
-            }
-
-            return Task.FromResult(true);
-        }
+        public int LoginAttempts { get; set; } = 0;
     }
 }

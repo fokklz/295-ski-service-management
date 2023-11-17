@@ -7,8 +7,10 @@ namespace SkiServiceAPI.DTOs.Requests
     /// </summary>
     public class UpdatePriorityRequest
     {
-        public string? Name { get; set; }
+        [StringLength(20)]
+        public string Name { get; set; }
 
-        public int? Days { get; set; }
+        [Range(1, 365)]
+        public int Days { get; set; }
     }
 }

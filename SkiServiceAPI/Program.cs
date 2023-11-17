@@ -121,7 +121,6 @@ namespace SkiServiceAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             SeedUsers(app.Services).Wait();

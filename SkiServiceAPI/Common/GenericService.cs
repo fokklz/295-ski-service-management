@@ -60,9 +60,6 @@ namespace SkiServiceAPI.Common
         {
             var parsed = _mapper.Map<T>(entity);
 
-            bool valid = await parsed.ValidateAsync();
-            if (!valid) TaskResult<TResponse>.Error("Validation failed");
-
             _context.Set<T>().Add(parsed);
             await _context.SaveChangesAsync();
             return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(parsed));

@@ -36,9 +36,5 @@ namespace SkiServiceAPI.Models
 
         public bool Deleted { get; set; } = false;
 
-        public Task<bool> ValidateAsync()
-        {
-            return Task.FromResult(true);
-        }
     }
 }

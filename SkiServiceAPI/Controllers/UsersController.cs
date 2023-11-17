@@ -51,18 +51,26 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
             var result = await _userService.VerifyPasswordAsync(model.Username, model.Password);
-            if (result == null || result.Locked)
+            if (!result.Result)
             {
-                return Unauthorized("Invalid Credentials");
-            }
+                if (result.User != null && result.User.Locked)
+                {
+                    return Unauthorized("User Locked");
+                }
+                else
+                {
+                    return Unauthorized("Invalid Credentials");
+                }
+            } 
 
-            var token = _tokenService.CreateToken(result.Id.ToString(), model.Username, result.Role);
+            var user = result.User;
+            var token = _tokenService.CreateToken(user.Id.ToString(), user.Username, user.Role);
             return Ok(new LoginResponse()
             {
-                Id = result.Id,
-                Username = result.Username,
-                Locked = result.Locked,
-                Role = result.Role,
+                Id = user.Id,
+                Username = user.Username,
+                Locked = user.Locked,
+                Role = user.Role,
                 Auth = token
             });
         }

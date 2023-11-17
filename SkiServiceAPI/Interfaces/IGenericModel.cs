@@ -4,6 +4,5 @@
     {
         int Id { get; set; }
 
-        Task<bool> ValidateAsync();
     }
 }
