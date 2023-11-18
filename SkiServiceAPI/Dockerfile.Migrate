@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration
+
+WORKDIR /app
+
+# Copy necessary files
+COPY ["SkiServiceAPI.csproj", "./"]
+RUN dotnet restore "SkiServiceAPI.csproj"
+
+COPY . .
+
+# Install EF Core Global Tools
+RUN dotnet tool install --global dotnet-ef --version 7.0.13
+
+# Update PATH to include dotnet tools
+ENV PATH="/root/.dotnet/tools:${PATH}"
+
+RUN rm -f entrypoint.sh
+COPY entrypoint.Migration.sh entrypoint.sh
+
+WORKDIR /app
+
+# Setting the entry point
+ENTRYPOINT ["./entrypoint.sh"]

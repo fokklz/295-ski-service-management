@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  mssql:
+    build: ./MSSQL
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  aspnetapp:
+    build: ./SkiServiceAPI
+    volumes:
+      - migration_volume:/tmp
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=JetStream;User ID=SkiServiceManagement;Password=Str0ng!Pass123;TrustServerCertificate=True;
+    ports:
+      - "8000:80"
+    depends_on:
+      - mssql
+      - migrate
+
+  migrate:
+    build:
+      context: ./SkiServiceAPI
+      dockerfile: Dockerfile.Migrate
+    volumes:
+      - migration_volume:/tmp
+    depends_on:
+      - mssql
+
+volumes:
+  mssql_data: {}
+  migration_volume: {}
