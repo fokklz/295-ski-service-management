@@ -14,7 +14,7 @@ namespace SkiServiceAPI.Controllers
     /// <summary>
     /// Basic CRUD Controller for Orders
     /// </summary>
-    public class OrdersController : GenericController<Order, OrderResponse, UpdateOrderRequest, CreateOrderRequest>
+    public class OrdersController : GenericController<Order, OrderResponse, OrderResponseAdmin, UpdateOrderRequest, CreateOrderRequest>
     {
 
         private readonly IOrderService _service;
@@ -43,7 +43,6 @@ namespace SkiServiceAPI.Controllers
         /// <param name="userId">The target User</param>
         /// <returns>all orders for that user</returns>
         [HttpGet("user/{userId}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OrderResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByUser(int userId)
@@ -58,7 +57,6 @@ namespace SkiServiceAPI.Controllers
         /// <param name="priorityId">The Priority</param>
         /// <returns>all orders for that priority</returns>
         [HttpGet("priority/{priorityId}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OrderResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByPriority(int priorityId)
@@ -73,7 +71,6 @@ namespace SkiServiceAPI.Controllers
         /// <param name="stateId">The Sate</param>
         /// <returns>all orders for that priority</returns>
         [HttpGet("state/{stateId}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OrderResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByState(int stateId)
@@ -88,7 +85,6 @@ namespace SkiServiceAPI.Controllers
         /// <param name="serviceId">The Service</param>
         /// <returns>all orders for that service</returns>
         [HttpGet("service/{serviceId}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OrderResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByService(int serviceId) 

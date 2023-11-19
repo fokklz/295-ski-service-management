@@ -8,11 +8,12 @@ using SkiServiceAPI.Data;
 using SkiServiceAPI.DTOs.Requests;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
+using SkiServiceAPI.DTOs.Responses;
 
 namespace SkiServiceAPI.Services
 {
 
-    public class UserService : GenericService<User, UserResponse, UpdateUserRequest, CreateUserRequest>, IUserService
+    public class UserService : GenericService<User, UserResponse, UserResponseAdmin, UpdateUserRequest, CreateUserRequest>, IUserService
     {
         private readonly IApplicationDBContext _context;
         private readonly IMapper _mapper;
@@ -48,11 +49,11 @@ namespace SkiServiceAPI.Services
         /// <param name="id">Id for the Entry</param>
         /// <param name="entity">Entity Data</param>
         /// <returns>UserResponse as TaskResult</returns>
-        public override async Task<TaskResult<UserResponse>> UpdateAsync(int id, UpdateUserRequest entity)
+        public override async Task<TaskResult<object>> UpdateAsync(int id, UpdateUserRequest entity)
         {
             var all = await _context.Users.ToListAsync();
             var current = await _context.Users.FindAsync(id);
-            if (current == null) return TaskResult<UserResponse>.Error("Entry not Found");
+            if (current == null) return TaskResult<object>.Error("Entry not Found");
 
 
             if (!string.IsNullOrWhiteSpace(entity.Password))
@@ -64,7 +65,8 @@ namespace SkiServiceAPI.Services
 
             _mapper.Map(entity, current);
             await _context.SaveChangesAsync();
-            return TaskResult<UserResponse>.Success(_mapper.Map<UserResponse>(current));
+
+            return Resolve(current);
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace SkiServiceAPI.Services
         /// <param name="id">Id for the Entry</param>
         /// <param name="entity">Entity Data</param>
         /// <returns>UserResponse as TaskResult</returns>
-        public override async Task<TaskResult<UserResponse>> CreateAsync(CreateUserRequest entity)
+        public override async Task<TaskResult<object>> CreateAsync(CreateUserRequest entity)
         {
             var user = _mapper.Map<User>(entity);
 
@@ -87,7 +89,8 @@ namespace SkiServiceAPI.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return TaskResult<UserResponse>.Success(_mapper.Map<UserResponse>(user));
+
+            return Resolve(user);
         }
 
         /// <summary>

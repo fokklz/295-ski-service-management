@@ -11,7 +11,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SkiServiceAPI.Services
 {
-    public class OrderService : GenericService<Order, OrderResponse, UpdateOrderRequest, CreateOrderRequest>, IOrderService
+    public class OrderService : GenericService<Order, OrderResponse, OrderResponseAdmin, UpdateOrderRequest, CreateOrderRequest>, IOrderService
     {
         private readonly IApplicationDBContext _context;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>OrderResponse as TaskResult</returns>
-        public override async Task<TaskResult<OrderResponse>> CreateAsync(CreateOrderRequest entity)
+        public override async Task<TaskResult<object>> CreateAsync(CreateOrderRequest entity)
         {
             var newOrder = await base.CreateAsync(entity);
             if (!newOrder.IsOk || newOrder.Response == null) return newOrder;
@@ -37,9 +37,11 @@ namespace SkiServiceAPI.Services
                 .Include(e => e.Service)
                 .Include(e => e.Priority)
                 .Include(e => e.State)
-                .FirstOrDefault(e => e.Id == newOrder.Response.Id);
+                .FirstOrDefault(e => e.Id == (newOrder.Response as OrderResponse).Id);
 
-            return TaskResult<OrderResponse>.Success(_mapper.Map<OrderResponse>(proxied));
+            // we know its not null since we just created it
+            return Resolve(proxied);
+
         }
 
         /// <summary>
@@ -47,13 +49,13 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="userId">The target User</param>
         /// <returns>All Orders assigned to that user</returns>
-        public async Task<TaskResult<List<OrderResponse>>> GetByUserAsync(int userId)
+        public async Task<TaskResult<IEnumerable<object>>> GetByUserAsync(int userId)
         {
             var query = _context.Orders.Where(e => e.UserId == userId);
             var filtered = ApplyFilter(query);
             var orders = await filtered.ToListAsync();
 
-            return TaskResult<List<OrderResponse>>.Success(_mapper.Map<List<OrderResponse>>(orders));
+            return ResolveList(orders);
         }
 
         /// <summary>
@@ -61,13 +63,13 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="priorityId">The target Priority</param>
         /// <returns>All Orders assigned to that priority</returns>
-        public async Task<TaskResult<List<OrderResponse>>> GetByPriorityAsync(int priorityId)
+        public async Task<TaskResult<IEnumerable<object>>> GetByPriorityAsync(int priorityId)
         {
             var query = _context.Orders.Where(e => e.PriorityId == priorityId);
             var filtered = ApplyFilter(query);
             var orders = await filtered.ToListAsync();
 
-            return TaskResult<List<OrderResponse>>.Success(_mapper.Map<List<OrderResponse>>(orders));
+            return ResolveList(orders);
         }
 
         /// <summary>
@@ -75,13 +77,13 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="priorityId">The target State</param>
         /// <returns>All Orders assigned to that state</returns>
-        public async Task<TaskResult<List<OrderResponse>>> GetByStateAsync(int stateId)
+        public async Task<TaskResult<IEnumerable<object>>> GetByStateAsync(int stateId)
         {
             var query = _context.Orders.Where(e => e.StateId == stateId);
             var filtered = ApplyFilter(query);
             var orders = await filtered.ToListAsync();
 
-            return TaskResult<List<OrderResponse>>.Success(_mapper.Map<List<OrderResponse>>(orders));
+            return ResolveList(orders);
         }
 
         /// <summary>
@@ -89,13 +91,13 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="priorityId">The target Service</param>
         /// <returns>All Orders assigned to that service</returns>
-        public async Task<TaskResult<List<OrderResponse>>> GetByServiceAsync(int serviceId)
+        public async Task<TaskResult<IEnumerable<object>>> GetByServiceAsync(int serviceId)
         {
             var query = _context.Orders.Where(e => e.ServiceId == serviceId);
             var filtered = ApplyFilter(query);
             var orders = await filtered.ToListAsync();
 
-            return TaskResult<List<OrderResponse>>.Success(_mapper.Map<List<OrderResponse>>(orders));
+            return ResolveList(orders);
         }
     }
 }

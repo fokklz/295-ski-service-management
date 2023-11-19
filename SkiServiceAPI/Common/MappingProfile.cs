@@ -24,10 +24,15 @@ namespace SkiServiceAPI.Common
             //########################################################
 
             CreateMap<User, UserResponse>();
+            CreateMap<User, UserResponseAdmin>();
             CreateMap<Service, ServiceResponse>();
+            CreateMap<Service, ServiceResponseAdmin>();
             CreateMap<State, StateResponse>();
+            CreateMap<State, StateResponseAdmin>();
             CreateMap<Priority, PriorityResponse>();
+            CreateMap<Priority, PriorityResponseAdmin>();
             CreateMap<Order, OrderResponse>();
+            CreateMap<Order, OrderResponseAdmin>();
 
             //########################################################
             //

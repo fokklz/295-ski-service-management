@@ -6,11 +6,11 @@ using SkiServiceAPI.Models;
 
 namespace SkiServiceAPI.Interfaces
 {
-    public interface IOrderService : IBaseService<Order, OrderResponse, UpdateOrderRequest, CreateOrderRequest>
+    public interface IOrderService : IBaseService<Order, OrderResponse, OrderResponseAdmin, UpdateOrderRequest, CreateOrderRequest>
     {
-        Task<TaskResult<List<OrderResponse>>> GetByUserAsync(int userId);
-        Task<TaskResult<List<OrderResponse>>> GetByPriorityAsync(int priorityId);
-        Task<TaskResult<List<OrderResponse>>> GetByStateAsync(int stateId);
-        Task<TaskResult<List<OrderResponse>>> GetByServiceAsync(int serviceId);
+        Task<TaskResult<IEnumerable<object>>> GetByUserAsync(int userId);
+        Task<TaskResult<IEnumerable<object>>> GetByPriorityAsync(int priorityId);
+        Task<TaskResult<IEnumerable<object>>> GetByStateAsync(int stateId);
+        Task<TaskResult<IEnumerable<object>>> GetByServiceAsync(int serviceId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceAPI.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceAPI.DTOs.Responses
 {
@@ -9,5 +10,10 @@ namespace SkiServiceAPI.DTOs.Responses
         public string Name { get; set; }
 
         public int Days { get; set; }
+    }
+
+    public class PriorityResponseAdmin : PriorityResponse
+    {
+        public bool IsDeleted { get; set; }
     }
 }

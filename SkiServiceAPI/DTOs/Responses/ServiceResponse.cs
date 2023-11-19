@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceAPI.Interfaces;
 
 namespace SkiServiceAPI.DTOs.Responses
 {
@@ -11,5 +11,10 @@ namespace SkiServiceAPI.DTOs.Responses
         public string Description { get; set; }
 
         public int Price { get; set; }
+    }
+
+    public class ServiceResponseAdmin : ServiceResponse
+    {
+        public bool IsDeleted { get; set; }
     }
 }

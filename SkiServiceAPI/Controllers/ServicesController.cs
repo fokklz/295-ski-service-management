@@ -9,9 +9,9 @@ namespace SkiServiceAPI.Controllers
     /// <summary>
     /// Basic CRUD Controller for Services
     /// </summary>
-    public class ServicesController : GenericController<Service, ServiceResponse, UpdateServiceRequest, CreateServiceRequest>
+    public class ServicesController : GenericController<Service, ServiceResponse, ServiceResponseAdmin, UpdateServiceRequest, CreateServiceRequest>
     {
-        public ServicesController(GenericService<Service, ServiceResponse, UpdateServiceRequest, CreateServiceRequest> service) : base(service)
+        public ServicesController(GenericService<Service, ServiceResponse, ServiceResponseAdmin, UpdateServiceRequest, CreateServiceRequest> service) : base(service)
         {
         }
     }

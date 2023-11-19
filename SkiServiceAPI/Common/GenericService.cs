@@ -6,13 +6,15 @@ using SkiServiceAPI.Data;
 using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SkiServiceAPI.Common
 {
-    public class GenericService<T, TResponse, TUpdate, TCreate> : IBaseService<T, TResponse, TUpdate, TCreate>
+    public class GenericService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> : IBaseService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate>
         where T : class, IGenericModel
-        where TResponse : class
+        where TResponseBase : class
+        where TResponseAdmin : class, TResponseBase
         where TUpdate : class
         where TCreate : class
     {
@@ -49,43 +51,86 @@ namespace SkiServiceAPI.Common
             return query.Where(e => isAdmin || e.IsDeleted == false);
         }
 
+        /// <summary>
+        /// Helper to distinguish between admin and non admin responses for a single entity
+        /// </summary>
+        /// <typeparam name="TModel">T</typeparam>
+        /// <param name="data">the data to map</param>
+        /// <returns>the mapped data in the coresponding DTO</returns>
+        protected TaskResult<object> Resolve<TModel>(TModel data)
+            where TModel : class, IGenericModel
+        {
+            if (IsAdmin())
+            {
+                return TaskResult<object>.Success(_mapper.Map<TResponseAdmin>(data));
+            }
+            else
+            {
+                return TaskResult<object>.Success(_mapper.Map<TResponseBase>(data));
+            }
+        }
+
+        /// <summary>
+        /// Helper to distinguish between admin and non admin responses for a list-like entity
+        /// </summary>
+        /// <typeparam name="TModel">T</typeparam>
+        /// <param name="data">the data to map</param>
+        /// <returns>the mapped data in the coresponding DTO</returns>
+        protected TaskResult<IEnumerable<object>> ResolveList<TModel>(IEnumerable<TModel> data)
+            where TModel : class, IGenericModel
+        {
+            if (IsAdmin())
+            {
+                return TaskResult<IEnumerable<object>>.Success(_mapper.Map<IEnumerable<TResponseAdmin>>(data));
+            }
+            else
+            {
+                return TaskResult<IEnumerable<object>>.Success(_mapper.Map<IEnumerable<TResponseBase>>(data));
+            }
+        }
 
         /// <summary>
         /// Get all entities
         /// </summary>
-        /// <returns>TResponse as TaskResult</returns>
-        public virtual async Task<TaskResult<List<TResponse>>> GetAllAsync()
+        /// <returns>TResponseBase as TaskResult</returns>
+        public virtual async Task<TaskResult<IEnumerable<object>>> GetAllAsync()
         {
-            var query = _context.Set<T>();
-            var filtered = ApplyFilter(query);
-            var resolvedEntity = await filtered.ToListAsync();
-            return TaskResult<List<TResponse>>.Success(_mapper.Map<List<TResponse>>(resolvedEntity));
+            var isAdmin = IsAdmin();
+            var query = _context.Set<T>().AsQueryable();
+            query = ApplyFilter(query);
+
+            var data = await query.ToListAsync();
+
+            return ResolveList(data);
         }
+
 
         /// <summary>
         /// Get entity by id
         /// </summary>
         /// <param name="id">Id of the Entry</param>
-        /// <returns>TResponse as TaskResult</returns>
-        public virtual async Task<TaskResult<TResponse>> GetAsync(int id)
+        /// <returns>TResponseBase as TaskResult</returns>
+        public virtual async Task<TaskResult<object>> GetAsync(int id)
         {
             var resolvedEntity = await _context.Set<T>().FindAsync(id);
-            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<TResponse>.Error("Entry not Found");
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error("Entry not Found");
+
+            return Resolve(resolvedEntity);
         }
 
         /// <summary>
         /// Create entity
         /// </summary>
         /// <param name="entity">Entity Data</param>
-        /// <returns>TResponse as TaskResult</returns>
-        public virtual async Task<TaskResult<TResponse>> CreateAsync(TCreate entity)
+        /// <returns>TResponseBase as TaskResult</returns>
+        public virtual async Task<TaskResult<object>> CreateAsync(TCreate entity)
         {
             var resolvedEntity = _mapper.Map<T>(entity);
 
             _context.Set<T>().Add(resolvedEntity);
             await _context.SaveChangesAsync();
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
+
+            return Resolve(resolvedEntity);
         }
 
         /// <summary>
@@ -93,15 +138,16 @@ namespace SkiServiceAPI.Common
         /// </summary>
         /// <param name="id">Id of the Entry</param>
         /// <param name="entity">Entity data</param>
-        /// <returns>TResponse as TaskResult</returns>
-        public virtual async Task<TaskResult<TResponse>> UpdateAsync(int id, TUpdate entity)
+        /// <returns>TResponseBase as TaskResult</returns>
+        public virtual async Task<TaskResult<object>> UpdateAsync(int id, TUpdate entity)
         {
             var resolvedEntity = await _context.Set<T>().FindAsync(id);
-            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<TResponse>.Error("Entry not Found");
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error("Entry not Found");
 
             _mapper.Map(entity, resolvedEntity);
             await _context.SaveChangesAsync();
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
+
+            return Resolve(resolvedEntity);
         }
 
         /// <summary>
@@ -120,24 +166,6 @@ namespace SkiServiceAPI.Common
             {
                 Id = resolvedEntity.Id,
             });
-        }
-    }
-
-    /// <summary>
-    /// Allows to use the same type for T, TResponse since they are often the same specially on small models
-    /// </summary>
-    /// <typeparam name="T">Target Model</typeparam>
-    /// <typeparam name="TUpdate">Update DTO of Model</typeparam>
-    /// <typeparam name="TCreate">Create DTO of Model</typeparam>
-    public class GenericService<T, TUpdate, TCreate> : GenericService<T, T, TUpdate, TCreate>
-        where T : class, IGenericModel
-        where TUpdate : class
-        where TCreate : class
-    {
-
-        public GenericService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) :
-            base(context, mapper, httpContextAccessor)
-        {
         }
     }
 }

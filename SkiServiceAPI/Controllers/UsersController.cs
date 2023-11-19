@@ -16,7 +16,7 @@ namespace SkiServiceAPI.Controllers
     /// User Controller for CRUD operations
     /// Implements the Generic Controller for Users to infer the basic CRUD operations
     /// </summary>
-    public class UsersController : GenericController<User, UserResponse, UpdateUserRequest, CreateUserRequest>
+    public class UsersController : GenericController<User, UserResponse, UserResponseAdmin, UpdateUserRequest, CreateUserRequest>
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;

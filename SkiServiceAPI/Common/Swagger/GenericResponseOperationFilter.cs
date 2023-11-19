@@ -23,9 +23,9 @@ namespace SkiServiceAPI.Common.OpenAPI
                 {
                     var genericArguments = baseType.GetGenericArguments();
                     // Assuming at least two generic type arguments
-                    if (genericArguments.Length > 1)
+                    if (genericArguments.Length == 5)
                     {
-                        Type dto = genericArguments.Length == 3 ? genericArguments[0] : genericArguments[1];
+                        Type dto = genericArguments[2]; // admin dto
 
                         // Check if the action name is "GetAll", adjust the type to be a list of DTOs
                         if (controllerActionDescriptor.ActionName == "GetAll")

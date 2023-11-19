@@ -3,16 +3,17 @@ using SkiServiceAPI.DTOs.Responses;
 
 namespace SkiServiceAPI.Interfaces
 {
-    public interface IBaseService<T, TResponse, TUpdate, TCreate>
+    public interface IBaseService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate>
         where T : class, IGenericModel
-        where TResponse : class
+        where TResponseBase : class
+        where TResponseAdmin : class, TResponseBase
         where TUpdate : class
         where TCreate : class
     {
-        Task<TaskResult<List<TResponse>>> GetAllAsync();
-        Task<TaskResult<TResponse>> GetAsync(int id);
-        Task<TaskResult<TResponse>> CreateAsync(TCreate entity);
-        Task<TaskResult<TResponse>> UpdateAsync(int id, TUpdate entity);
+        Task<TaskResult<IEnumerable<object>>> GetAllAsync();
+        Task<TaskResult<object>> GetAsync(int id);
+        Task<TaskResult<object>> CreateAsync(TCreate entity);
+        Task<TaskResult<object>> UpdateAsync(int id, TUpdate entity);
         Task<TaskResult<DeleteResponse>> DeleteAsync(int id);
     }
 }

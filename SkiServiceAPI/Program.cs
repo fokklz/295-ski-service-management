@@ -44,8 +44,8 @@ namespace SkiServiceAPI
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddScoped(typeof(GenericService<,,,>));
-            builder.Services.AddScoped(typeof(IBaseService<,,,>), typeof(GenericService<,,,>));
+            builder.Services.AddScoped(typeof(GenericService<,,,,>));
+            builder.Services.AddScoped(typeof(IBaseService<,,,,>), typeof(GenericService<,,,,>));
 
             builder.Services.AddScoped<IOrderService, OrderService>();
 

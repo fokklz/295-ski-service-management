@@ -8,9 +8,9 @@ namespace SkiServiceAPI.Controllers
     /// <summary>
     /// Basic CRUD Controller for States
     /// </summary>
-    public class StatesController : GenericController<State, StateResponse, UpdateStateRequest, CreateStateRequest>
+    public class StatesController : GenericController<State, StateResponse, StateResponseAdmin, UpdateStateRequest, CreateStateRequest>
     {
-        public StatesController(GenericService<State, StateResponse, UpdateStateRequest, CreateStateRequest> service) : base(service)
+        public StatesController(GenericService<State, StateResponse, StateResponseAdmin, UpdateStateRequest, CreateStateRequest> service) : base(service)
         {
         }
     }

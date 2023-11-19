@@ -1,4 +1,5 @@
 ﻿using SkiServiceAPI.DTOs.Requests;
+using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
 
 namespace SkiServiceAPI.DTOs.Responses
@@ -6,18 +7,6 @@ namespace SkiServiceAPI.DTOs.Responses
     public class OrderResponse
     {
         public int Id { get; set; }
-
-        // Foreign keys
-        public int ServiceId { get; set; }
-        public int PriorityId { get; set; }
-        public int StateId { get; set; }
-        public int? UserId { get; set; }
-
-        // Navigation properties
-        public UserResponse User { get; set; }
-        public Service Service { get; set; }
-        public Priority Priority { get; set; }
-        public State State { get; set; }
 
         public string Name { get; set; }
 
@@ -29,6 +18,21 @@ namespace SkiServiceAPI.DTOs.Responses
 
         public DateTime Created { get; set; }
 
-        public bool Deleted { get; set; }
+        // Navigation properties
+        public UserResponse User { get; set; }
+        public ServiceResponse Service { get; set; }
+        public PriorityResponse Priority { get; set; }
+        public StateResponse State { get; set; }
+    }
+
+    public class OrderResponseAdmin : OrderResponse
+    {
+        public bool IsDeleted { get; set; }
+
+        // Navigation properties
+        new public UserResponseAdmin User { get; set; }
+        new public ServiceResponseAdmin Service { get; set; }
+        new public PriorityResponseAdmin Priority { get; set; }
+        new public StateResponseAdmin State { get; set; }
     }
 }

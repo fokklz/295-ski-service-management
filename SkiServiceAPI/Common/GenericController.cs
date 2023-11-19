@@ -16,16 +16,17 @@ namespace SkiServiceAPI.Common
     /// <typeparam name="TCreate">Create DTO</typeparam>
     [ApiController]
     [Route("api/[controller]")]
-    public class GenericController<T, TResponse, TUpdate, TCreate> : ControllerBase
+    public class GenericController<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> : ControllerBase
         where T : class, IGenericModel
-        where TResponse : class
+        where TResponseBase : class
+        where TResponseAdmin : class, TResponseBase
         where TUpdate : class
         where TCreate : class
     {
 
-        private readonly IBaseService<T, TResponse, TUpdate, TCreate> _service;
+        private readonly IBaseService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> _service;
 
-        public GenericController(IBaseService<T, TResponse, TUpdate, TCreate> service)
+        public GenericController(IBaseService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> service)
         {
             _service = service;
         }
@@ -93,23 +94,6 @@ namespace SkiServiceAPI.Common
         {
             var result = await _service.DeleteAsync(id);
             return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
-        }
-    }
-
-    /// <summary>
-    /// Allows to use the same type for T, TResponse since they are often the same specially on small models
-    /// </summary>
-    /// <typeparam name="T">Target Model</typeparam>
-    /// <typeparam name="TUpdate">Update DTO of Model</typeparam>
-    /// <typeparam name="TCreate">Create DTO of Model</typeparam>
-    public class GenericController<T, TUpdate, TCreate> : GenericController<T, T, TUpdate, TCreate>
-        where T : class, IGenericModel
-        where TUpdate : class
-        where TCreate : class
-    {
-        public GenericController(IBaseService<T, T, TUpdate, TCreate> service)
-        : base(service)
-        {
         }
     }
 }
