@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Data;
 using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
+using SkiServiceAPI.Models;
 using System.Collections.Generic;
 
 namespace SkiServiceAPI.Common
@@ -17,12 +18,37 @@ namespace SkiServiceAPI.Common
     {
         private readonly IApplicationDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GenericService(IApplicationDBContext context, IMapper mapper)
+        public GenericService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        /// <summary>
+        /// Check if the current user is an Admin
+        /// </summary>
+        /// <returns>true if admin else false</returns>
+        protected bool IsAdmin()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            return user?.IsInRole(RoleNames.SuperAdmin.ToString()) ?? false;
+        }
+
+        /// <summary>
+        /// Apply the filter to the query to hide soft-deleted entries from non admin users
+        /// </summary>
+        /// <typeparam name="T">Model</typeparam>
+        /// <param name="query">The query to apply the filter on</param>
+        /// <returns>the filtered content</returns>
+        protected IQueryable<T> ApplyFilter(IQueryable<T> query)
+        {
+            bool isAdmin = IsAdmin();
+            return query.Where(e => isAdmin || e.IsDeleted == false);
+        }
+
 
         /// <summary>
         /// Get all entities
@@ -30,13 +56,10 @@ namespace SkiServiceAPI.Common
         /// <returns>TResponse as TaskResult</returns>
         public virtual async Task<TaskResult<List<TResponse>>> GetAllAsync()
         {
-            List<TResponse> destinations = new List<TResponse>();
-            var result = await _context.Set<T>().ToListAsync();
-            foreach (var res in result)
-            {
-                destinations.Add(_mapper.Map<TResponse>(res));
-            }
-            return TaskResult<List<TResponse>>.Success(destinations);
+            var query = _context.Set<T>();
+            var filtered = ApplyFilter(query);
+            var resolvedEntity = await filtered.ToListAsync();
+            return TaskResult<List<TResponse>>.Success(_mapper.Map<List<TResponse>>(resolvedEntity));
         }
 
         /// <summary>
@@ -46,9 +69,9 @@ namespace SkiServiceAPI.Common
         /// <returns>TResponse as TaskResult</returns>
         public virtual async Task<TaskResult<TResponse>> GetAsync(int id)
         {
-            var user = await _context.Set<T>().FindAsync(id);
-            if (user == null) return TaskResult<TResponse>.Error("Entry not Found");
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(user));
+            var resolvedEntity = await _context.Set<T>().FindAsync(id);
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<TResponse>.Error("Entry not Found");
+            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
         }
 
         /// <summary>
@@ -58,11 +81,11 @@ namespace SkiServiceAPI.Common
         /// <returns>TResponse as TaskResult</returns>
         public virtual async Task<TaskResult<TResponse>> CreateAsync(TCreate entity)
         {
-            var parsed = _mapper.Map<T>(entity);
+            var resolvedEntity = _mapper.Map<T>(entity);
 
-            _context.Set<T>().Add(parsed);
+            _context.Set<T>().Add(resolvedEntity);
             await _context.SaveChangesAsync();
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(parsed));
+            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
         }
 
         /// <summary>
@@ -73,12 +96,12 @@ namespace SkiServiceAPI.Common
         /// <returns>TResponse as TaskResult</returns>
         public virtual async Task<TaskResult<TResponse>> UpdateAsync(int id, TUpdate entity)
         {
-            var current = await _context.Set<T>().FindAsync(id);
-            if (current == null) return TaskResult<TResponse>.Error("Entry not Found");
+            var resolvedEntity = await _context.Set<T>().FindAsync(id);
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<TResponse>.Error("Entry not Found");
 
-            _mapper.Map(entity, current);
+            _mapper.Map(entity, resolvedEntity);
             await _context.SaveChangesAsync();
-            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(current));
+            return TaskResult<TResponse>.Success(_mapper.Map<TResponse>(resolvedEntity));
         }
 
         /// <summary>
@@ -88,14 +111,14 @@ namespace SkiServiceAPI.Common
         /// <returns>DeleteResponse as TaskResult</returns>
         public virtual async Task<TaskResult<DeleteResponse>> DeleteAsync(int id)
         {
-            var entity = await _context.Set<T>().FindAsync(id);
-            if (entity == null) return TaskResult<DeleteResponse>.Error("Entry not Found");
+            var resolvedEntity = await _context.Set<T>().FindAsync(id);
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<DeleteResponse>.Error("Entry not Found");
 
-            _context.Set<T>().Remove(entity);
+            resolvedEntity.IsDeleted = true;
             await _context.SaveChangesAsync();
             return TaskResult<DeleteResponse>.Success(new DeleteResponse
             {
-                Id = entity.Id,
+                Id = resolvedEntity.Id,
             });
         }
     }
@@ -112,8 +135,8 @@ namespace SkiServiceAPI.Common
         where TCreate : class
     {
 
-        public GenericService(IApplicationDBContext context, IMapper mapper) :
-            base(context, mapper)
+        public GenericService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) :
+            base(context, mapper, httpContextAccessor)
         {
         }
     }

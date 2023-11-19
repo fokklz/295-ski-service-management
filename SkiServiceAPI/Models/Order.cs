@@ -34,7 +34,7 @@ namespace SkiServiceAPI.Models
 
         public DateTime Created { get; set; } = DateTime.Now;
 
-        public bool Deleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
     }
 }

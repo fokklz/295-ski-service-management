@@ -16,11 +16,13 @@ namespace SkiServiceAPI.Services
     {
         private readonly IApplicationDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IApplicationDBContext context, IMapper mapper) : base(context, mapper)
+        public UserService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>

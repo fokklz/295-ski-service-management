@@ -35,6 +35,7 @@ namespace SkiServiceAPI
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddHttpContextAccessor();
 
             // Connect to default configured database
             builder.Services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
@@ -43,7 +44,7 @@ namespace SkiServiceAPI
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddScoped(typeof(GenericService<,,>));
+            builder.Services.AddScoped(typeof(GenericService<,,,>));
             builder.Services.AddScoped(typeof(IBaseService<,,,>), typeof(GenericService<,,,>));
 
             builder.Services.AddScoped<IOrderService, OrderService>();

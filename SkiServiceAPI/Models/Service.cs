@@ -16,5 +16,7 @@ namespace SkiServiceAPI.Models
 
         public int Price { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

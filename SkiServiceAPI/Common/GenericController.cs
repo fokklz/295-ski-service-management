@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkiServiceAPI.Data;
 using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
+using System.Security.Claims;
 
 namespace SkiServiceAPI.Common
 {

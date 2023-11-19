@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Models;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SkiServiceAPI.Controllers
 {
@@ -35,7 +36,7 @@ namespace SkiServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Me()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(JwtRegisteredClaimNames.NameId)?.Value;
             var userInfo = await _userService.GetAsync(int.Parse(userId));
 
             return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.Message);

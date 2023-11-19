@@ -13,5 +13,7 @@ namespace SkiServiceAPI.Models
 
         public int Days { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

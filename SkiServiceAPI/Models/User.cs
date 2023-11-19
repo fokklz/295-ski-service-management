@@ -25,5 +25,7 @@ namespace SkiServiceAPI.Models
         public RoleNames Role { get; set; } = RoleNames.Mitarbeiter;
 
         public int LoginAttempts { get; set; } = 0;
+
+        public bool IsDeleted { get; set; } = false;
     }
 }
