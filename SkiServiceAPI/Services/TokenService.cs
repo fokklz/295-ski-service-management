@@ -18,13 +18,12 @@ namespace SkiServiceAPI.Services
 #pragma warning restore CS8604 // Mögliches Nullverweisargument.
         }
 
-        public TokenData CreateToken(string id, string username, RoleNames role)
+        public TokenData CreateToken(string id, RoleNames role)
         {
             //Creating Claims. You can add more information in these claims. For example email id.
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, id),
-                new Claim(ClaimTypes.NameIdentifier, username),
+                new Claim(ClaimTypes.NameIdentifier, id),
                 new Claim(ClaimTypes.Role, role.ToString())
             };
 

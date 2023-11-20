@@ -6,7 +6,7 @@
     /// </summary>
     public enum RoleNames
     {
-        Mitarbeiter,
+        User,
         SuperAdmin
     }
 }

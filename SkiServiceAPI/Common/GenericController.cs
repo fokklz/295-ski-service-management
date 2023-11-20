@@ -36,7 +36,8 @@ namespace SkiServiceAPI.Common
         /// </summary>
         /// <returns>TDestination mapped from T</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public virtual async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllAsync();
             return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
@@ -48,7 +49,8 @@ namespace SkiServiceAPI.Common
         /// <param name="id">Id</param>
         /// <returns>TDestination mapped from T</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<IActionResult> Get(int id)
         {
             var result = await _service.GetAsync(id);
             return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
@@ -62,6 +64,7 @@ namespace SkiServiceAPI.Common
         [HttpPost]
         [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public virtual async Task<IActionResult> Create([FromBody] TCreate entity)
         {
             var result = await _service.CreateAsync(entity);
@@ -76,10 +79,11 @@ namespace SkiServiceAPI.Common
         [HttpPut("{id}")]
         [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update(int id, [FromBody] TUpdate entity)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<IActionResult> Update(int id, [FromBody] TUpdate entity)
         {
             var result = await _service.UpdateAsync(id, entity);
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
         }
 
         /// <summary>
@@ -90,10 +94,11 @@ namespace SkiServiceAPI.Common
         [HttpDelete("{id}")]
         [Authorize(Roles = nameof(RoleNames.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<IActionResult> Delete(int id)
         {
             var result = await _service.DeleteAsync(id);
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
         }
     }
 }

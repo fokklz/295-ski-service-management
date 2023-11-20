@@ -11,6 +11,7 @@ namespace SkiServiceAPI.DTOs.Requests
         [StringLength(50)]
         public string? Username { get; set; }
 
+        [MinLength(8)]
         public string? Password { get; set; }
 
         public bool? Locked { get; set; }

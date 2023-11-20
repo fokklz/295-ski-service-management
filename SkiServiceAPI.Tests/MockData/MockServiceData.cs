@@ -1,38 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SkiServiceAPI.Interfaces;
+using Moq;
 using SkiServiceAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SkiServiceAPI.Data
+namespace SkiServiceAPI.Tests.MockData
 {
-    public class ApplicationDBContext : DbContext, IApplicationDBContext
+    internal class MockServiceData
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
-            : base(options)
+
+        public static List<Service> Items()
         {
-        }
-
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Priority> Priorities { get; set; }
-        public virtual DbSet<State> States { get; set; }
-        public virtual DbSet<Service> Services { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            // Configure Username as unique
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
-                .IsUnique();
-
-            // Convert role enum to string
-            modelBuilder
-                .Entity<User>()
-                .Property(e => e.Role)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<Service>().HasData(
+            return new List<Service>
+            {
                 new Service
                 {
                     Id = 1,
@@ -75,20 +58,7 @@ namespace SkiServiceAPI.Data
                     Description = "bietet tiefe Wachsimprägnierung für herausragendes Gleiterlebnis. Verfügbar als eigenständige Dienstleistung zur optimalen Vorbereitung der Skier für maximale Performance bei jedem Abfahrtslauf.",
                     Price = 18
                 }
-            );
-
-            modelBuilder.Entity<Priority>().HasData(
-                new Priority { Id = 1, Name = "Tief", Days = 12 },
-                new Priority { Id = 2, Name = "Standard", Days = 7 },
-                new Priority { Id = 3, Name = "Express", Days = 5 }
-            );
-
-            modelBuilder.Entity<State>().HasData(
-                new State { Id = 1, Name = "Offen" },
-                new State { Id = 2, Name = "InArbeit" },
-                new State { Id = 3, Name = "Abgeschlossen" }
-            );
+            };
         }
     }
 }
-

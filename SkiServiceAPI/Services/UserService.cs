@@ -9,6 +9,8 @@ using SkiServiceAPI.DTOs.Requests;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
 using SkiServiceAPI.DTOs.Responses;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SkiServiceAPI.Services
 {
@@ -24,6 +26,22 @@ namespace SkiServiceAPI.Services
             _context = context;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        /// <summary>
+        /// Allow users to request their own information based on the submitted token
+        /// </summary>
+        /// <returns>the user information</returns>
+        public async Task<TaskResult<object>> GetMe()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            if (user == null) return TaskResult<object>.Error("User not found");
+
+            var claim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (claim == null) return TaskResult<object>.Error("User not found");
+
+            var id = int.Parse(claim);
+            return await GetAsync(id);
         }
 
         /// <summary>
@@ -51,7 +69,6 @@ namespace SkiServiceAPI.Services
         /// <returns>UserResponse as TaskResult</returns>
         public override async Task<TaskResult<object>> UpdateAsync(int id, UpdateUserRequest entity)
         {
-            var all = await _context.Users.ToListAsync();
             var current = await _context.Users.FindAsync(id);
             if (current == null) return TaskResult<object>.Error("Entry not Found");
 
@@ -100,7 +117,7 @@ namespace SkiServiceAPI.Services
         /// <param name="password">The Password</param>
         /// <param name="role">The Role</param>
         /// <returns></returns>
-        public async Task CreateSeed(string username, string password, RoleNames role = RoleNames.Mitarbeiter)
+        public async Task CreateSeed(string username, string password, RoleNames role = RoleNames.User)
         {
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -125,8 +142,14 @@ namespace SkiServiceAPI.Services
         public async Task<LoginResult> VerifyPasswordAsync(string username, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null) return new LoginResult {
+            if (user == null) return new LoginResult 
+            {
                 User = null,
+                Result = false
+            };
+            if (user.Locked) return new LoginResult 
+            {
+                User = user,
                 Result = false
             };
 

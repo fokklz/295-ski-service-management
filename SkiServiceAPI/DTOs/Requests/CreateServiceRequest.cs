@@ -16,7 +16,7 @@ namespace SkiServiceAPI.DTOs.Requests
         public string Description { get; set; }
 
         [Required]
-        [Range(1, 100000)]
+        [Range(1, 1000)]
         public int Price { get; set; }
     }
 }

@@ -25,9 +25,5 @@ namespace SkiServiceAPI.DTOs.Requests
 
         [StringLength(1000)]
         public string? Note { get; set; } = null;
-
-        public DateTime? Created { get; set; }
-
-        public bool? Deleted { get; set; }
     }
 }

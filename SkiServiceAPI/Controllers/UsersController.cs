@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using SkiServiceAPI.DTOs.Requests;
 using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Data;
-using System.ComponentModel.DataAnnotations;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Models;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace SkiServiceAPI.Controllers
 {
@@ -33,12 +30,12 @@ namespace SkiServiceAPI.Controllers
         /// <returns>UserResponse</returns>
         [HttpGet("me")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseAdmin))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Me()
         {
-            var userId = User.FindFirst(JwtRegisteredClaimNames.NameId)?.Value;
-            var userInfo = await _userService.GetAsync(int.Parse(userId));
-
+            var userInfo = await _userService.GetMe();
             return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.Message);
         }
 
@@ -49,6 +46,7 @@ namespace SkiServiceAPI.Controllers
         /// <returns>LoginResponse</returns>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
             var result = await _userService.VerifyPasswordAsync(model.Username, model.Password);
@@ -65,7 +63,7 @@ namespace SkiServiceAPI.Controllers
             } 
 
             var user = result.User;
-            var token = _tokenService.CreateToken(user.Id.ToString(), user.Username, user.Role);
+            var token = _tokenService.CreateToken(user.Id.ToString(), user.Role);
             return Ok(new LoginResponse()
             {
                 Id = user.Id,
@@ -87,8 +85,9 @@ namespace SkiServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Unlock(int id)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == id.ToString()) return Unauthorized("You cannot unlock yourself");
+            var userInfo = await _userService.GetMe();
+            if (!userInfo.IsOk) return Unauthorized("User not found"); // should never happen due to [Authorize]
+            if ((userInfo.Response as UserResponse).Id == id) return Unauthorized("You cannot unlock yourself");
 
             var result = await _userService.UnlockAsync(id);
             return result.IsOk ? Ok() : BadRequest(result.Message);

@@ -5,6 +5,6 @@ namespace SkiServiceAPI.Interfaces
 {
     public interface ITokenService
     {
-        TokenData CreateToken(string id, string username, RoleNames role);
+        TokenData CreateToken(string id, RoleNames role);
     }
 }

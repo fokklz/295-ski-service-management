@@ -22,7 +22,7 @@ namespace SkiServiceAPI.Models
 
         public bool Locked {  get; set; } = false;
 
-        public RoleNames Role { get; set; } = RoleNames.Mitarbeiter;
+        public RoleNames Role { get; set; } = RoleNames.User;
 
         public int LoginAttempts { get; set; } = 0;
 
