@@ -67,3 +67,4 @@ Eine migration wird mithilfe des `migration` containers erstellt
   - `Berichte/`: Enthält Test-Berichte.
   - `SkiService-Management.postman_collection.json`: Postman Collection für API-Tests.
   - `Dokumentation.pdf`: Dokumentation
+  - `Präsentation.pdf`: Präsentation
