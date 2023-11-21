@@ -15,6 +15,7 @@ docker-compose up -d --build
 Dieser Befehl setzt die erforderlichen Dienste auf, einschließlich der Datenbank und der API. <br>
 Eine migration wird mithilfe des `migration` containers erstellt
    
+[http://localhost:3000/swagger](http://localhost:3000/swagger) um die API zu öffnen
 
 ## Installation ohne Docker
 
