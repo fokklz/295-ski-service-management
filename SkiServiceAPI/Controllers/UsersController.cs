@@ -90,7 +90,7 @@ namespace SkiServiceAPI.Controllers
             if ((userInfo.Response as UserResponse).Id == id) return Unauthorized("You cannot unlock yourself");
 
             var result = await _userService.UnlockAsync(id);
-            return result.IsOk ? Ok() : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
         }
     }
 }

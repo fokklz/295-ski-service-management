@@ -28,6 +28,12 @@ namespace SkiServiceAPI.Middlewares
                     context.Response.StatusCode = 400; // Bad Request
                     await context.Response.WriteAsJsonAsync(new { error = errorMessage });
                 }
+                else if (IsUniqueConstraintViolation(ex, out string uniqueErrorMessage))
+                {
+                    context.Response.ContentType = "application/json";
+                    context.Response.StatusCode = 400; // Bad Request
+                    await context.Response.WriteAsJsonAsync(new { error = uniqueErrorMessage });
+                }
                 else
                 {
                     context.Response.ContentType = "application/json";
@@ -55,6 +61,24 @@ namespace SkiServiceAPI.Middlewares
                     var tableName = match.Groups[2].Value;
 
                     errorMessage = $"Invalid data: Foreign key constraint violation. Constraint: {constraintName}, Table: {tableName}.";
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsUniqueConstraintViolation(DbUpdateException ex, out string errorMessage)
+        {
+            errorMessage = null;
+            if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+            {
+                var match = Regex.Match(sqlEx.Message, @"Cannot insert duplicate key row in object '([^']+)'");
+                if (match.Success)
+                {
+                    var tableName = match.Groups[1].Value;
+
+                    errorMessage = $"Invalid data: A unique constraint violation occurred in table '{tableName}'.";
                     return true;
                 }
             }

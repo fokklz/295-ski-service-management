@@ -47,7 +47,7 @@ namespace SkiServiceAPI.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = nameof(RoleNames.User))]
+        [Authorize]
         public override async Task<IActionResult> Update(int id, [FromBody] UpdateOrderRequest entity)
         {
             var result = await _service.UpdateAsync(id, entity);

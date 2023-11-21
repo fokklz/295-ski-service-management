@@ -8,9 +8,9 @@ namespace SkiServiceAPI.DTOs.Requests
     public class UpdatePriorityRequest
     {
         [StringLength(20)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Range(1, 365)]
-        public int Days { get; set; }
+        public int? Days { get; set; }
     }
 }

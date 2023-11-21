@@ -49,16 +49,17 @@ namespace SkiServiceAPI.Services
         /// </summary>
         /// <param name="id">Id of the Entry</param>
         /// <returns>User</returns>
-        public async Task<TaskResult<UserResponse>> UnlockAsync(int id)
+        public async Task<TaskResult<object>> UnlockAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return TaskResult<UserResponse>.Error("Entry not Found");
-            if (!user.Locked) return TaskResult<UserResponse>.Error("User is not locked");
+            if (user == null) return TaskResult<object>.Error("Entry not Found");
+            if (!user.Locked) return TaskResult<object>.Error("User is not locked");
 
 
             user.Locked = false;
+            user.LoginAttempts = 0;
             await _context.SaveChangesAsync();
-            return TaskResult<UserResponse>.Success(null);
+            return Resolve(user);
         }
 
         /// <summary>
