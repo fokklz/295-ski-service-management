@@ -11,6 +11,7 @@ services:
     build: ./SkiServiceAPI
     volumes:
       - migration_volume:/tmp
+      - ./Logs:/Logs
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=JetStream;User ID=SkiServiceManagement;Password=Str0ng!Pass123;TrustServerCertificate=True;

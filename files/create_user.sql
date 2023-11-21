@@ -1,4 +1,4 @@
 CREATE LOGIN [DBUser] WITH PASSWORD = 'veryStrongPassword';
-USE [ASPDatabase];
+USE [ASPDatabaseLocal];
 CREATE USER [DBUser] FOR LOGIN [DBUser];
 GRANT SELECT, INSERT, UPDATE, DELETE TO [DBUser];

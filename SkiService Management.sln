@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiServiceAPI", "SkiServiceAPI\SkiServiceAPI.csproj", "{91BDBD3E-CDCD-44A1-BEEA-AE7240674A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiServiceAPI.Tests", "SkiServiceAPI.Tests\SkiServiceAPI.Tests.csproj", "{91B3C19A-5B01-4EA3-BAA1-937AAA763EE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiServiceAPI.Tests", "SkiServiceAPI.Tests\SkiServiceAPI.Tests.csproj", "{91B3C19A-5B01-4EA3-BAA1-937AAA763EE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

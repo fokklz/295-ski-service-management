@@ -106,11 +106,12 @@ namespace SkiServiceAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+            // This should defently be hidden in a production enviroment, for this case we leave it to have it inside docker
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            //}
 
             app.UseExceptionHandlingMiddleware();
 

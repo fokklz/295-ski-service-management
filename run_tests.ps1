@@ -1,0 +1,1 @@
+dotnet test --logger "trx;LogFileName=test_results.trx"
