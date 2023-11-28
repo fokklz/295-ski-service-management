@@ -89,7 +89,7 @@ namespace SkiServiceAPI
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-#pragma warning disable CS8604 // Mögliches Nullverweisargument.
+#pragma warning disable CS8604 // Mï¿½gliches Nullverweisargument.
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -99,7 +99,7 @@ namespace SkiServiceAPI
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
-#pragma warning restore CS8604 // Mögliches Nullverweisargument.
+#pragma warning restore CS8604 // Mï¿½gliches Nullverweisargument.
                 });
 
 
@@ -136,6 +136,7 @@ namespace SkiServiceAPI
         /// <summary>
         /// Create a intial collection of Users to ensure the Application can be propperly used
         /// The "Superadmin" login should be provided to the Customer
+        /// Also migrates the database to the latest version
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -144,6 +145,8 @@ namespace SkiServiceAPI
             using var scope = services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             var dbContext = scopedServices.GetRequiredService<IApplicationDBContext>();
+            await dbContext.MigrateAsync();
+
             var usermanager = scopedServices.GetRequiredService<IUserService>();
 
             if (!dbContext.Users.Any())
@@ -161,5 +164,6 @@ namespace SkiServiceAPI
                 await usermanager.CreateSeed("Mitarbeiter 10", "m10");
             }
         }
+
     }
 }

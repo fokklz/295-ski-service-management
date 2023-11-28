@@ -1,7 +1,10 @@
 version: '3.8'
 services:
   mssql:
-    build: ./MSSQL
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=AStrong!Passw0rd
     ports:
       - "1433:1433"
     volumes:
@@ -10,26 +13,14 @@ services:
   aspnetapp:
     build: ./SkiServiceAPI
     volumes:
-      - migration_volume:/tmp
       - ./Logs:/Logs
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=JetStream;User ID=SkiServiceManagement;Password=Str0ng!Pass123;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=JetStream;User ID=SA;Password=AStrong!Passw0rd;TrustServerCertificate=True;
     ports:
       - "8000:80"
-    depends_on:
-      - mssql
-      - migrate
-
-  migrate:
-    build:
-      context: ./SkiServiceAPI
-      dockerfile: Dockerfile.Migrate
-    volumes:
-      - migration_volume:/tmp
     depends_on:
       - mssql
 
 volumes:
   mssql_data: {}
-  migration_volume: {}

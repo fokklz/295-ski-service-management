@@ -17,6 +17,11 @@ namespace SkiServiceAPI.Data
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
+        public async Task MigrateAsync()
+        {
+            await Database.MigrateAsync();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

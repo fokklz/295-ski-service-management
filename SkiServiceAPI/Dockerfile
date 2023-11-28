@@ -12,6 +12,5 @@ RUN dotnet publish "SkiServiceAPI.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY ./entrypoint.sh .
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["dotnet", "SkiServiceAPI.dll"]

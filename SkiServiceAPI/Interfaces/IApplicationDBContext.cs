@@ -15,5 +15,6 @@ namespace SkiServiceAPI.Interfaces
 
         // Support for generic repositories
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        Task MigrateAsync();
     }
 }
