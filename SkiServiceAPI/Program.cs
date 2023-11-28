@@ -53,6 +53,17 @@ namespace SkiServiceAPI
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
+            var allowedOrigins = builder.Configuration["CORS:AllowedOrigins"]?.Split(',') ?? new string[0];
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             // Setup swagger to allow Authorization
             builder.Services.AddSwaggerGen(c =>
             {
@@ -112,6 +123,9 @@ namespace SkiServiceAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             //}
+
+            
+            app.UseCors("CorsPolicy");
 
             app.UseExceptionHandlingMiddleware();
 
