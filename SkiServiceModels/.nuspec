@@ -1,0 +1,12 @@
+<package>
+    <metadata>
+        <id>SkiServiceModels</id>
+        <version>1.0.0</version>
+        <authors>Fokko Vos</authors>
+        <owners>Fokko Vos</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Models for SkiService</description>
+        <releaseNotes>First release</releaseNotes>
+        <tags>ski</tags>
+    </metadata>
+</package>
