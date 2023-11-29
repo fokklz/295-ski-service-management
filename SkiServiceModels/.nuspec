@@ -9,4 +9,8 @@
         <releaseNotes>First release</releaseNotes>
         <tags>ski</tags>
     </metadata>
+
+    <files>
+        <file src="README.md" target=""/>
+    </files>
 </package>
