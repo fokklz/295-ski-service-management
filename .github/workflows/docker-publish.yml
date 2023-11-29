@@ -25,7 +25,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./SkiServiceAPI
-          file: ./SkiServiceAPI/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: true
           tags: fokklz/skiservice-api:latest
