@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Azure;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Common;
-using SkiServiceAPI.DTOs.Requests;
-using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using SkiServiceModels;
+using SkiServiceModels.DTOs.Requests;
+using SkiServiceModels.DTOs.Responses;
 
 namespace SkiServiceAPI.Services
 {

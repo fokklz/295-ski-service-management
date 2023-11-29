@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SkiServiceAPI.DTOs.Requests;
-using SkiServiceAPI.DTOs.Responses;
-using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Common;
-using SkiServiceAPI.Models;
-using System.Security.Claims;
+using SkiServiceAPI.Interfaces;
+using SkiServiceModels;
+using SkiServiceModels.DTOs.Requests;
+using SkiServiceModels.DTOs.Responses;
 
 namespace SkiServiceAPI.Controllers
 {

@@ -1,5 +1,5 @@
-﻿using SkiServiceAPI.Data;
-using SkiServiceAPI.DTOs;
+﻿using SkiServiceModels.DTOs;
+using SkiServiceModels.Enums;
 
 namespace SkiServiceAPI.Interfaces
 {

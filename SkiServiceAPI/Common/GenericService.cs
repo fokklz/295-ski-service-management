@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using SkiServiceAPI.Data;
-using SkiServiceAPI.DTOs.Responses;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
-using System.Collections;
-using System.Collections.Generic;
+using SkiServiceModels.DTOs.Responses;
+using SkiServiceModels.Enums;
+using SkiServiceModels.Interfaces;
 
 namespace SkiServiceAPI.Common
 {

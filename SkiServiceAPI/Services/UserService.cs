@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using Azure.Core;
-using Azure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using SkiServiceAPI.Common;
-using SkiServiceAPI.Data;
-using SkiServiceAPI.DTOs.Requests;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
-using SkiServiceAPI.DTOs.Responses;
+using SkiServiceModels;
+using SkiServiceModels.DTOs.Requests;
+using SkiServiceModels.DTOs.Responses;
+using SkiServiceModels.Enums;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace SkiServiceAPI.Services
 {

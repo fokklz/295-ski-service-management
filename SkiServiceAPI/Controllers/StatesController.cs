@@ -1,7 +1,7 @@
 ﻿using SkiServiceAPI.Common;
-using SkiServiceAPI.DTOs.Requests;
-using SkiServiceAPI.DTOs.Responses;
-using SkiServiceAPI.Models;
+using SkiServiceModels;
+using SkiServiceModels.DTOs.Requests;
+using SkiServiceModels.DTOs.Responses;
 
 namespace SkiServiceAPI.Controllers
 {

@@ -1,5 +1,6 @@
 ﻿using SkiServiceAPI.Common;
-using SkiServiceAPI.DTOs.Responses;
+using SkiServiceModels.DTOs.Responses;
+using SkiServiceModels.Interfaces;
 
 namespace SkiServiceAPI.Interfaces
 {

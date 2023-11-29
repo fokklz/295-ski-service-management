@@ -1,10 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SkiServiceAPI.Data;
 using SkiServiceAPI.Interfaces;
+using SkiServiceModels.DTOs;
+using SkiServiceModels.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using SkiServiceAPI.DTOs;
 
 namespace SkiServiceAPI.Services
 {

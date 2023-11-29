@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using SkiServiceAPI.DTOs;
-using SkiServiceAPI.DTOs.Requests;
-using SkiServiceAPI.DTOs.Responses;
-using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
-using SkiServiceAPI.Services;
+using SkiServiceModels;
+using SkiServiceModels.DTOs.Requests;
+using SkiServiceModels.DTOs.Responses;
 
 namespace SkiServiceAPI.Common
 {

@@ -10,6 +10,7 @@ using SkiServiceAPI.Common.OpenAPI;
 using SkiServiceAPI.Data;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Services;
+using SkiServiceModels.Enums;
 using System.Text;
 
 namespace SkiServiceAPI

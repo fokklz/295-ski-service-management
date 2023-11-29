@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
-using SkiServiceAPI.DTOs.Responses;
+using SkiServiceModels.DTOs.Responses;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SkiServiceAPI.Common.OpenAPI

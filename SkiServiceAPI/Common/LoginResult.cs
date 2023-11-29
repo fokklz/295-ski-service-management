@@ -1,4 +1,4 @@
-﻿using SkiServiceAPI.Models;
+﻿using SkiServiceModels;
 
 namespace SkiServiceAPI.Common
 {

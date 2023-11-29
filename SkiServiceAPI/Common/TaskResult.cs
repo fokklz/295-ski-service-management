@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using SkiServiceAPI.Interfaces;
-
-namespace SkiServiceAPI.Common
+﻿namespace SkiServiceAPI.Common
 {
     /// <summary>
     /// Reutrn Wrapper for all Task Results inside services to allow for better error handling
