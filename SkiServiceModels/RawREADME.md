@@ -18,6 +18,7 @@
       - [ServiceResponse](#serviceresponse)
       - [StateResponse](#stateresponse)
       - [UserResponse](#userresponse)
+      - [ErrorResponse](#errorresponse)
     - [Request DTOs](#request-dtos)
       - [LoginRequest](#loginrequest)
       - [CreateOrderRequest](#createorderrequest)
@@ -79,6 +80,9 @@
 #### UserResponse
 <<RESDTO::UserResponse>>
 
+#### ErrorResponse
+<<RESDTO::ErrorResponse>>
+
 ### Request DTOs
 
 #### LoginRequest
@@ -128,3 +132,4 @@ This DTO is used for any token data sent by the API.
 ## Interfaces
 
 ### IGenericModel Interface
+<<INTERFACE::IGenericModel>>
