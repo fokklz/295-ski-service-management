@@ -17,6 +17,19 @@ namespace SkiServiceAPI
 {
     public class Program
     {
+        public static TokenValidationParameters TokenValidationParameters(IConfiguration configuration)
+        {
+            return new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"])),
+                ValidAudience = configuration["JWT:Audience"],
+                ValidIssuer = configuration["JWT:Issuer"],
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +56,7 @@ namespace SkiServiceAPI
             builder.Services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
-            builder.Services.AddSingleton<ITokenService, TokenService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddScoped(typeof(GenericService<,,,,>));
@@ -101,17 +114,7 @@ namespace SkiServiceAPI
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-#pragma warning disable CS8604 // M�gliches Nullverweisargument.
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
-                        ValidAudience = builder.Configuration["JWT:Audience"],
-                        ValidIssuer = builder.Configuration["JWT:Issuer"],
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-#pragma warning restore CS8604 // M�gliches Nullverweisargument.
+                    options.TokenValidationParameters = TokenValidationParameters(builder.Configuration);
                 });
 
 

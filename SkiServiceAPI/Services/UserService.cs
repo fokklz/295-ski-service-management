@@ -40,6 +40,20 @@ namespace SkiServiceAPI.Services
             return await GetAsync(id);
         }
 
+        public async Task<TaskResult<object>> RevokeRefreshToken()
+        {
+            var result = await GetMe();
+            if (result.Response == null) return TaskResult<object>.Error(result.Message);
+
+            var user = result.Response as User;
+            if (user == null) return TaskResult<object>.Error("User not found");
+
+            user.RefreshToken = null;
+            await _context.SaveChangesAsync();
+
+            return Resolve(user);
+        }
+
         /// <summary>
         /// Unlocks a User
         /// </summary>
@@ -75,6 +89,7 @@ namespace SkiServiceAPI.Services
                 CreatePasswordHash(entity.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 current.PasswordHash = passwordHash;
                 current.PasswordSalt = passwordSalt;
+                current.RefreshToken = null;
             }
 
             _mapper.Map(entity, current);

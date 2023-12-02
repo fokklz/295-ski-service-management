@@ -7,6 +7,8 @@
     {
         public string Token { get; set; }
 
+        public string? RefreshToken { get; set; }
+
         public string TokenType { get; set; } = "Bearer";
 
         public DateTime Issued { get; set; } = DateTime.UtcNow;

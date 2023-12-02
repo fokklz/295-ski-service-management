@@ -21,6 +21,7 @@
       - [ErrorResponse](#errorresponse)
     - [Request DTOs](#request-dtos)
       - [LoginRequest](#loginrequest)
+      - [RefreshRequest](#refreshrequest)
       - [CreateOrderRequest](#createorderrequest)
       - [CreatePriorityRequest](#createpriorityrequest)
       - [CreateServiceRequest](#createservicerequest)
@@ -87,6 +88,9 @@
 
 #### LoginRequest
 <<REQDTO::LoginRequest>>
+
+#### RefreshRequest
+<<REQDTO::RefreshRequest>>
 
 #### CreateOrderRequest
 <<REQDTO::CreateOrderRequest>>

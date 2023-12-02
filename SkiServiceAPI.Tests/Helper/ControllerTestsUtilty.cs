@@ -7,7 +7,6 @@ using SkiServiceAPI.Common;
 using SkiServiceAPI.Controllers;
 using SkiServiceAPI.Data;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Services;
 using SkiServiceAPI.Tests.MockData;
 using System;
 using System.Collections.Generic;

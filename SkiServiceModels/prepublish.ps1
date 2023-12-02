@@ -14,7 +14,7 @@ $inputFile = Join-Path $workingDirectory "RawREADME.md"
 $outputFile = Join-Path $workingDirectory "README.md"
 
 $directories = @{
-    "MODEL" = ""
+    "MODEL" = "Models"
     "DTO" = "DTOs"
     "REQDTO" = "DTOs\Requests"
     "RESDTO" = "DTOs\Responses"

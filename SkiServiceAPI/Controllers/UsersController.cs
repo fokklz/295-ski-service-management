@@ -38,6 +38,40 @@ namespace SkiServiceAPI.Controllers
             return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.Message);
         }
 
+        [HttpPost("revoke")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Revoke()
+        {
+            var result = await _userService.RevokeRefreshToken();
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+        }
+
+        [HttpPost("refresh")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequest model)
+        {
+            var result = await _tokenService.RefreshToken(model.Token, model.RefreshToken);
+            if (result.Response == null)
+            {
+                return Unauthorized(result.Message);
+            }
+
+            var user = result.Response.User;
+
+            return Ok(new LoginResponse()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Locked = user.Locked,
+                Role = user.Role,
+                Auth = result.Response.TokenData
+            });
+        }   
+
+
         /// <summary>
         /// Login a user and return a token along with their information
         /// </summary>
@@ -49,7 +83,7 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
             var result = await _userService.VerifyPasswordAsync(model.Username, model.Password);
-            if (!result.Result)
+            if (!result.Result || result.User == null)
             {
                 if (result.User != null && result.User.Locked)
                 {
@@ -62,7 +96,8 @@ namespace SkiServiceAPI.Controllers
             } 
 
             var user = result.User;
-            var token = _tokenService.CreateToken(user.Id.ToString(), user.Role);
+            var token = await _tokenService.CreateToken(user, model.RememberMe);
+
             return Ok(new LoginResponse()
             {
                 Id = user.Id,
