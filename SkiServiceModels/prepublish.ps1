@@ -89,7 +89,7 @@ function Extract-ClassDefinition {
     $codeBlockStart = '```csharp'
     $codeBlockEnd = '```'
     $codeBlockInner = $classContent -join "`r`n"
-    return "$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
+    return "[back up](#contents)`r`n$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
 }
 
 $content = Get-Content $inputFile
