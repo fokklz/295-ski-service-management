@@ -25,9 +25,6 @@ $directories = @{
 # Clear any old output
 Clear-Content $outputFile -ErrorAction SilentlyContinue
 
-# Read the input file
-$content = Get-Content $inputFile
-
 # Function to extract class definition from a file
 # Will also take care of codeblock wrapping
 function Extract-ClassDefinition {
@@ -95,6 +92,8 @@ function Extract-ClassDefinition {
     return "$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
 }
 
+$content = Get-Content $inputFile
+
 foreach ($line in $content) {
     if ($line -match '<<(.+)::(.+)>>') {
         $type = $matches[1]
@@ -105,3 +104,5 @@ foreach ($line in $content) {
 
     $line | Out-File $outputFile -Append
 }
+
+Write-Host "README.md generated at $outputFile"
