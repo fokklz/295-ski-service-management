@@ -25,5 +25,7 @@ namespace SkiServiceModels
         public int LoginAttempts { get; set; } = 0;
 
         public bool IsDeleted { get; set; } = false;
+
+        public string RefreshToken { get; set; } = null;
     }
 }

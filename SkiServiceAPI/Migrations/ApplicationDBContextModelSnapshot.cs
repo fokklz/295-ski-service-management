@@ -17,7 +17,7 @@ namespace SkiServiceAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -25,7 +25,7 @@ namespace SkiServiceAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SkiServiceAPI.Models.Order", b =>
+            modelBuilder.Entity("SkiServiceModels.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7410),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2452),
                             Email = "alice.johnson@example.com",
                             IsDeleted = false,
                             Name = "Alice Johnson",
@@ -98,7 +98,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7414),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2456),
                             Email = "bob.smith@example.com",
                             IsDeleted = false,
                             Name = "Bob Smith",
@@ -110,7 +110,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7418),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2459),
                             Email = "carol.white@example.com",
                             IsDeleted = false,
                             Name = "Carol White",
@@ -122,7 +122,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 4,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7421),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2463),
                             Email = "david.green@example.com",
                             IsDeleted = false,
                             Name = "David Green",
@@ -134,7 +134,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 5,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7425),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2466),
                             Email = "evelyn.harris@example.com",
                             IsDeleted = false,
                             Name = "Evelyn Harris",
@@ -147,7 +147,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 6,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7428),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2470),
                             Email = "frank.miller@example.com",
                             IsDeleted = false,
                             Name = "Frank Miller",
@@ -159,7 +159,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 7,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7431),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2473),
                             Email = "grace.lee@example.com",
                             IsDeleted = false,
                             Name = "Grace Lee",
@@ -171,7 +171,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 8,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7435),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2476),
                             Email = "henry.wilson@example.com",
                             IsDeleted = false,
                             Name = "Henry Wilson",
@@ -183,7 +183,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 9,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7439),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2532),
                             Email = "irene.taylor@example.com",
                             IsDeleted = false,
                             Name = "Irene Taylor",
@@ -196,7 +196,7 @@ namespace SkiServiceAPI.Migrations
                         new
                         {
                             Id = 10,
-                            Created = new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7442),
+                            Created = new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2536),
                             Email = "jason.brown@example.com",
                             IsDeleted = false,
                             Name = "Jason Brown",
@@ -207,7 +207,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceAPI.Models.Priority", b =>
+            modelBuilder.Entity("SkiServiceModels.Priority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +254,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceAPI.Models.Service", b =>
+            modelBuilder.Entity("SkiServiceModels.Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +333,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceAPI.Models.State", b =>
+            modelBuilder.Entity("SkiServiceModels.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -374,7 +374,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceAPI.Models.User", b =>
+            modelBuilder.Entity("SkiServiceModels.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -397,6 +397,9 @@ namespace SkiServiceAPI.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -414,27 +417,27 @@ namespace SkiServiceAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SkiServiceAPI.Models.Order", b =>
+            modelBuilder.Entity("SkiServiceModels.Order", b =>
                 {
-                    b.HasOne("SkiServiceAPI.Models.Priority", "Priority")
+                    b.HasOne("SkiServiceModels.Priority", "Priority")
                         .WithMany()
                         .HasForeignKey("PriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceAPI.Models.Service", "Service")
+                    b.HasOne("SkiServiceModels.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceAPI.Models.State", "State")
+                    b.HasOne("SkiServiceModels.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceAPI.Models.User", "User")
+                    b.HasOne("SkiServiceModels.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 

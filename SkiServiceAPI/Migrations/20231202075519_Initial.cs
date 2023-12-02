@@ -70,7 +70,8 @@ namespace SkiServiceAPI.Migrations
                     Locked = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LoginAttempts = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -160,16 +161,16 @@ namespace SkiServiceAPI.Migrations
                 columns: new[] { "Id", "Created", "Email", "IsDeleted", "Name", "Note", "Phone", "PriorityId", "ServiceId", "StateId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7410), "alice.johnson@example.com", false, "Alice Johnson", null, "+15703464001", 1, 3, 2, null },
-                    { 2, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7414), "bob.smith@example.com", false, "Bob Smith", null, "+15703464002", 2, 1, 3, null },
-                    { 3, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7418), "carol.white@example.com", false, "Carol White", null, "+15703464003", 3, 5, 1, null },
-                    { 4, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7421), "david.green@example.com", false, "David Green", null, "+15703464004", 1, 2, 2, null },
-                    { 5, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7425), "evelyn.harris@example.com", false, "Evelyn Harris", "Check for additional details", "+15703464005", 2, 4, 3, null },
-                    { 6, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7428), "frank.miller@example.com", false, "Frank Miller", null, "+15703464006", 3, 6, 1, null },
-                    { 7, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7431), "grace.lee@example.com", false, "Grace Lee", null, "+15703464007", 1, 1, 2, null },
-                    { 8, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7435), "henry.wilson@example.com", false, "Henry Wilson", null, "+15703464008", 2, 3, 3, null },
-                    { 9, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7439), "irene.taylor@example.com", false, "Irene Taylor", "Requires immediate attention", "+15703464009", 3, 5, 1, null },
-                    { 10, new DateTime(2023, 11, 21, 20, 38, 50, 450, DateTimeKind.Local).AddTicks(7442), "jason.brown@example.com", false, "Jason Brown", null, "+15703464010", 1, 2, 2, null }
+                    { 1, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2452), "alice.johnson@example.com", false, "Alice Johnson", null, "+15703464001", 1, 3, 2, null },
+                    { 2, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2456), "bob.smith@example.com", false, "Bob Smith", null, "+15703464002", 2, 1, 3, null },
+                    { 3, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2459), "carol.white@example.com", false, "Carol White", null, "+15703464003", 3, 5, 1, null },
+                    { 4, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2463), "david.green@example.com", false, "David Green", null, "+15703464004", 1, 2, 2, null },
+                    { 5, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2466), "evelyn.harris@example.com", false, "Evelyn Harris", "Check for additional details", "+15703464005", 2, 4, 3, null },
+                    { 6, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2470), "frank.miller@example.com", false, "Frank Miller", null, "+15703464006", 3, 6, 1, null },
+                    { 7, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2473), "grace.lee@example.com", false, "Grace Lee", null, "+15703464007", 1, 1, 2, null },
+                    { 8, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2476), "henry.wilson@example.com", false, "Henry Wilson", null, "+15703464008", 2, 3, 3, null },
+                    { 9, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2532), "irene.taylor@example.com", false, "Irene Taylor", "Requires immediate attention", "+15703464009", 3, 5, 1, null },
+                    { 10, new DateTime(2023, 12, 2, 8, 55, 18, 807, DateTimeKind.Local).AddTicks(2536), "jason.brown@example.com", false, "Jason Brown", null, "+15703464010", 1, 2, 2, null }
                 });
 
             migrationBuilder.CreateIndex(

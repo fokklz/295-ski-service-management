@@ -21,6 +21,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Update README
+        run: pwsh ./SkiServiceModels/prepublish.ps1
+        shell: pwsh
+        working-directory: ./SkiServiceModels
+
       # dummy versioning system to prevent nuget from complaining
       - name: Set Version
         run: echo "VERSION=1.0.$(git rev-list --count main)" >> $GITHUB_ENV
