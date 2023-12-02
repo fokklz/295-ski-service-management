@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Update README
-        run: pwsh ./SkiServiceModels/prepublish.ps1
+        run: pwsh prepublish.ps1
         shell: pwsh
         working-directory: ./SkiServiceModels
 
