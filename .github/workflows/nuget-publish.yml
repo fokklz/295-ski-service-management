@@ -26,11 +26,6 @@ jobs:
         shell: pwsh
         working-directory: ./SkiServiceModels
 
-      # will hopefully provide some insight into why the build is failing
-      - name: List contents of SkiServiceModels directory
-        run: ls -la
-        working-directory: ./SkiServiceModels
-
       # dummy versioning system to prevent nuget from complaining
       - name: Set Version
         run: echo "VERSION=1.0.$(git rev-list --count main)" >> $GITHUB_ENV
