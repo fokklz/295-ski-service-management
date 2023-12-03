@@ -39,7 +39,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllAsync();
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.ErrorContent);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<IActionResult> Get(int id)
         {
             var result = await _service.GetAsync(id);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<IActionResult> Create([FromBody] TCreate entity)
         {
             var result = await _service.CreateAsync(entity);
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.ErrorContent);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<IActionResult> Update(int id, [FromBody] TUpdate entity)
         {
             var result = await _service.UpdateAsync(id, entity);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<IActionResult> Delete(int id)
         {
             var result = await _service.DeleteAsync(id);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Interfaces;
+using SkiServiceModels;
 using SkiServiceModels.DTOs.Responses;
 using SkiServiceModels.Enums;
 using SkiServiceModels.Interfaces;
@@ -109,7 +110,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<TaskResult<object>> GetAsync(int id)
         {
             var resolvedEntity = await _context.Set<T>().FindAsync(id);
-            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error("Entry not Found");
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
             return Resolve(resolvedEntity);
         }
@@ -138,7 +139,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<TaskResult<object>> UpdateAsync(int id, TUpdate entity)
         {
             var resolvedEntity = await _context.Set<T>().FindAsync(id);
-            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error("Entry not Found");
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
             _mapper.Map(entity, resolvedEntity);
             await _context.SaveChangesAsync();
@@ -154,7 +155,7 @@ namespace SkiServiceAPI.Common
         public virtual async Task<TaskResult<DeleteResponse>> DeleteAsync(int id)
         {
             var resolvedEntity = await _context.Set<T>().FindAsync(id);
-            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<DeleteResponse>.Error("Entry not Found");
+            if (resolvedEntity == null || (resolvedEntity.IsDeleted && !IsAdmin())) return TaskResult<DeleteResponse>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
             resolvedEntity.IsDeleted = true;
             await _context.SaveChangesAsync();

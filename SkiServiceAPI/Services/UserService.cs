@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
@@ -16,12 +17,91 @@ namespace SkiServiceAPI.Services
         private readonly IApplicationDBContext _context;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITokenService _tokenService;
 
-        public UserService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor)
+        public UserService(IApplicationDBContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, ITokenService tokenService) : base(context, mapper, httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _tokenService = tokenService;
+        }
+
+        /// <summary>
+        /// Login a User with the given Credentials
+        /// </summary>
+        /// <param name="model">The Credentials of the user</param>
+        /// <returns>a login Response with all information of the loggedin user as well as a token</returns>
+        public async Task<TaskResult<LoginResponse>> Login(LoginRequest model)
+        {
+            var result = await VerifyPasswordAsync(model.Username, model.Password);
+            if (!result.Result || result.User == null)
+            {
+
+                if (result.User != null && result.User.Locked)
+                {
+                    return TaskResult<LoginResponse>.Error(LocalizationKey.USER_LOCKED);
+                }
+                else
+                {
+                    return TaskResult<LoginResponse>.Error(LocalizationKey.INVALID_CREDENTIALS);
+                }
+            }
+
+            var user = result.User;
+            var token = await _tokenService.CreateToken(user, model.RememberMe);
+
+            return TaskResult<LoginResponse>.Success(new LoginResponse()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Locked = user.Locked,
+                Role = user.Role,
+                Auth = token
+            });
+        }
+
+        /// <summary>
+        /// Refreshes the Token of a User
+        /// </summary>
+        /// <param name="model">The RefreshRequest</param>
+        /// <returns>a login Response with all information of the loggedin user as well as a token</returns>
+        public async Task<TaskResult<LoginResponse>> Refresh(RefreshRequest model)
+        {
+            var result = await _tokenService.RefreshToken(model.Token, model.RefreshToken);
+            if (result.Response == null)
+            {
+                return TaskResult<LoginResponse>.Error(LocalizationKey.INVALID_CREDENTIALS);
+            }
+
+            var user = result.Response.User;
+
+            return TaskResult<LoginResponse>.Success(new LoginResponse()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Locked = user.Locked,
+                Role = user.Role,
+                Auth = result.Response.TokenData
+            });
+        }
+
+        /// <summary>
+        /// Will revoke the refresh token of the current user
+        /// </summary>
+        /// <returns>The user information</returns>
+        public async Task<TaskResult<object>> RevokeRefreshToken()
+        {
+            var result = await GetMe();
+            if (result.Response == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
+
+            var user = result.Response as User;
+            if (user == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
+
+            user.RefreshToken = null;
+            await _context.SaveChangesAsync();
+
+            return Resolve(user);
         }
 
         /// <summary>
@@ -31,27 +111,13 @@ namespace SkiServiceAPI.Services
         public async Task<TaskResult<object>> GetMe()
         {
             var user = _httpContextAccessor.HttpContext?.User;
-            if (user == null) return TaskResult<object>.Error("User not found");
+            if (user == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
             var claim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (claim == null) return TaskResult<object>.Error("User not found");
+            if (claim == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
             var id = int.Parse(claim);
             return await GetAsync(id);
-        }
-
-        public async Task<TaskResult<object>> RevokeRefreshToken()
-        {
-            var result = await GetMe();
-            if (result.Response == null) return TaskResult<object>.Error(result.Message);
-
-            var user = result.Response as User;
-            if (user == null) return TaskResult<object>.Error("User not found");
-
-            user.RefreshToken = null;
-            await _context.SaveChangesAsync();
-
-            return Resolve(user);
         }
 
         /// <summary>
@@ -61,9 +127,13 @@ namespace SkiServiceAPI.Services
         /// <returns>User</returns>
         public async Task<TaskResult<object>> UnlockAsync(int id)
         {
+            var userInfo = await GetMe();
+            if (!userInfo.IsOk) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
+            if ((userInfo.Response as UserResponse).Id == id) return TaskResult<object>.Error(LocalizationKey.CANNOT_UNLOCK_SELF);
+
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return TaskResult<object>.Error("Entry not Found");
-            if (!user.Locked) return TaskResult<object>.Error("User is not locked");
+            if (user == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
+            if (!user.Locked) return TaskResult<object>.Error(LocalizationKey.USER_NOT_LOCKED);
 
 
             user.Locked = false;
@@ -81,7 +151,7 @@ namespace SkiServiceAPI.Services
         public override async Task<TaskResult<object>> UpdateAsync(int id, UpdateUserRequest entity)
         {
             var current = await _context.Users.FindAsync(id);
-            if (current == null) return TaskResult<object>.Error("Entry not Found");
+            if (current == null) return TaskResult<object>.Error(LocalizationKey.ENTRY_NOT_FOUND);
 
 
             if (!string.IsNullOrWhiteSpace(entity.Password))

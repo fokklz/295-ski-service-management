@@ -35,9 +35,13 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> Me()
         {
             var userInfo = await _userService.GetMe();
-            return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.Message);
+            return userInfo.IsOk ? Ok(userInfo.Response) : NotFound(userInfo.ErrorContent);
         }
 
+        /// <summary>
+        /// Revoke the refresh token of the current user
+        /// </summary>
+        /// <returns>Empty Success Response</returns>
         [HttpPost("revoke")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,30 +49,21 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> Revoke()
         {
             var result = await _userService.RevokeRefreshToken();
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok() : BadRequest(result.ErrorContent);
         }
 
+        /// <summary>
+        /// Refresh the login by providing a valid refresh token and a valid access token
+        /// </summary>
+        /// <param name="model">RefreshRequest</param>
+        /// <returns>LoginResponse</returns>
         [HttpPost("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest model)
         {
-            var result = await _tokenService.RefreshToken(model.Token, model.RefreshToken);
-            if (result.Response == null)
-            {
-                return Unauthorized(result.Message);
-            }
-
-            var user = result.Response.User;
-
-            return Ok(new LoginResponse()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Locked = user.Locked,
-                Role = user.Role,
-                Auth = result.Response.TokenData
-            });
+            var result = await _userService.Refresh(model);
+            return result.IsOk ? Ok(result.Response) : Unauthorized(result.ErrorContent);
         }   
 
 
@@ -82,30 +77,8 @@ namespace SkiServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
-            var result = await _userService.VerifyPasswordAsync(model.Username, model.Password);
-            if (!result.Result || result.User == null)
-            {
-                if (result.User != null && result.User.Locked)
-                {
-                    return Unauthorized("User Locked");
-                }
-                else
-                {
-                    return Unauthorized("Invalid Credentials");
-                }
-            } 
-
-            var user = result.User;
-            var token = await _tokenService.CreateToken(user, model.RememberMe);
-
-            return Ok(new LoginResponse()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Locked = user.Locked,
-                Role = user.Role,
-                Auth = token
-            });
+            var result = await _userService.Login(model);
+            return result.IsOk ? Ok(result.Response) : Unauthorized(result.ErrorContent);
         }
         
         /// <summary>
@@ -119,12 +92,8 @@ namespace SkiServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Unlock(int id)
         {
-            var userInfo = await _userService.GetMe();
-            if (!userInfo.IsOk) return Unauthorized("User not found"); // should never happen due to [Authorize]
-            if ((userInfo.Response as UserResponse).Id == id) return Unauthorized("You cannot unlock yourself");
-
             var result = await _userService.UnlockAsync(id);
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.ErrorContent);
         }
     }
 }

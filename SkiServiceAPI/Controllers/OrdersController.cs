@@ -33,7 +33,7 @@ namespace SkiServiceAPI.Controllers
         public override async Task<IActionResult> Create([FromBody] CreateOrderRequest entity)
         {
             var result = await _service.CreateAsync(entity);
-            return result.IsOk ? Ok(result.Response) : BadRequest(result.Message);
+            return result.IsOk ? Ok(result.Response) : BadRequest(result.ErrorContent);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace SkiServiceAPI.Controllers
         public override async Task<IActionResult> Update(int id, [FromBody] UpdateOrderRequest entity)
         {
             var result = await _service.UpdateAsync(id, entity);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> GetByUser(int userId)
         {
             var result = await _service.GetByUserAsync(userId);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> GetByPriority(int priorityId)
         {
             var result = await _service.GetByPriorityAsync(priorityId);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> GetByState(int stateId)
         {
             var result = await _service.GetByStateAsync(stateId);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SkiServiceAPI.Controllers
         public async Task<IActionResult> GetByService(int serviceId) 
         {
             var result = await _service.GetByServiceAsync(serviceId);
-            return result.IsOk ? Ok(result.Response) : NotFound(result.Message);
+            return result.IsOk ? Ok(result.Response) : NotFound(result.ErrorContent);
         }
 
     }

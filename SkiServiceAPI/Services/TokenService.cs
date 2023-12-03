@@ -1,11 +1,9 @@
-﻿using Azure.Core;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
 using SkiServiceAPI.Models;
 using SkiServiceModels;
 using SkiServiceModels.DTOs;
-using SkiServiceModels.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -69,10 +67,10 @@ namespace SkiServiceAPI.Services
         {
             var principal = GetPrincipalFromExpiredToken(token);
             var userId = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return TaskResult<RefreshResult>.Error("Invalid Credentials");
+            if (userId == null) return TaskResult<RefreshResult>.Error(LocalizationKey.INVALID_CREDENTIALS);
 
             var user = await _dBContext.Users.FindAsync(int.Parse(userId));
-            if (user == null || user.RefreshToken != refreshToken) return TaskResult<RefreshResult>.Error("Invalid Credentials");
+            if (user == null || user.RefreshToken != refreshToken) return TaskResult<RefreshResult>.Error(LocalizationKey.INVALID_CREDENTIALS);
 
             var tokenData = await CreateToken(user, true);
             return TaskResult<RefreshResult>.Success(new RefreshResult
