@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Update Service Request DTO
     /// </summary>
-    public class UpdateServiceRequest
+    public class UpdateServiceRequest : IRequestDTO
     {
         [StringLength(50)]
         public string? Name { get; set; }

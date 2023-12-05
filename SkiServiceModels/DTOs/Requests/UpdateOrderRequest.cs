@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
-    public class UpdateOrderRequest
+    public class UpdateOrderRequest : IRequestDTO
     {
         public int? ServiceId { get; set; }
 

@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Create Priority Request DTO
     /// </summary>
-    public class CreatePriorityRequest
+    public class CreatePriorityRequest : IRequestDTO
     {
 
         [Required]

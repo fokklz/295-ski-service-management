@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
-    public class RefreshRequest
+    public class RefreshRequest : ILoginRequest
     {
         [Required]
         public string Token { get; set; }

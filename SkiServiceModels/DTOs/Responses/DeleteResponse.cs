@@ -1,9 +1,11 @@
-﻿namespace SkiServiceModels.DTOs.Responses
+﻿using SkiServiceModels.Interfaces;
+
+namespace SkiServiceModels.DTOs.Responses
 {
     /// <summary>
     /// Delete Response DTO
     /// </summary>
-    public class DeleteResponse
+    public class DeleteResponse : IResponseDTO
     {
         public int Id { get; set; }
     }

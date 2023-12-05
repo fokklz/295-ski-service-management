@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Login Request DTO
     /// </summary>
-    public class LoginRequest
+    public class LoginRequest : ILoginRequest
     {
         [Required]
         public string Username { get; set; }

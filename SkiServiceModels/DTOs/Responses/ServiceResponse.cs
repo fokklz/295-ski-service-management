@@ -1,6 +1,8 @@
-﻿namespace SkiServiceModels.DTOs.Responses
+﻿using SkiServiceModels.Interfaces;
+
+namespace SkiServiceModels.DTOs.Responses
 {
-    public class ServiceResponse
+    public class ServiceResponse : IResponseDTO
     {
         public int Id { get; set; }
 
@@ -11,7 +13,7 @@
         public int Price { get; set; }
     }
 
-    public class ServiceResponseAdmin : ServiceResponse
+    public class ServiceResponseAdmin : ServiceResponse, IResponseDTO
     {
         public bool IsDeleted { get; set; }
     }

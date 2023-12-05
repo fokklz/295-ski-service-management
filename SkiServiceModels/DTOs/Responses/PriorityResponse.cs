@@ -1,6 +1,8 @@
-﻿namespace SkiServiceModels.DTOs.Responses
+﻿using SkiServiceModels.Interfaces;
+
+namespace SkiServiceModels.DTOs.Responses
 {
-    public class PriorityResponse
+    public class PriorityResponse : IResponseDTO
     {
         public int Id { get; set; }
 
@@ -9,7 +11,7 @@
         public int Days { get; set; }
     }
 
-    public class PriorityResponseAdmin : PriorityResponse
+    public class PriorityResponseAdmin : PriorityResponse, IResponseDTO
     {
         public bool IsDeleted { get; set; }
     }

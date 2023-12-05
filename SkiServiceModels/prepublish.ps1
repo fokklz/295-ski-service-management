@@ -52,6 +52,7 @@ function Extract-ClassDefinition {
 		}
 	}
 
+    Write-Host "Extracting $Type definition for $Name from $filePath"
     Get-Content $filePath | ForEach-Object {
         if ($_ -match $pattern) {
             $insideClass = $true
@@ -85,6 +86,7 @@ function Extract-ClassDefinition {
             }
         }
     }
+
 
     $codeBlockStart = '```csharp'
     $codeBlockEnd = '```'

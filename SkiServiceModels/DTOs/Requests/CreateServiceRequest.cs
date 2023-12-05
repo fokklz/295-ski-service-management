@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Create Service Request DTO
     /// </summary>
-    public class CreateServiceRequest
+    public class CreateServiceRequest : IRequestDTO
     {
         [Required]
         [StringLength(50)]

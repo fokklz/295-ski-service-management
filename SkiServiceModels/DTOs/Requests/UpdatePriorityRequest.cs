@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SkiServiceModels.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Update Priority Request DTO
     /// </summary>
-    public class UpdatePriorityRequest
+    public class UpdatePriorityRequest : IRequestDTO
     {
         [StringLength(20)]
         public string? Name { get; set; }

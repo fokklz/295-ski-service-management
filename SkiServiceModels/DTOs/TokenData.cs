@@ -1,9 +1,11 @@
-﻿namespace SkiServiceModels.DTOs
+﻿using SkiServiceModels.Interfaces;
+
+namespace SkiServiceModels.DTOs
 {
     /// <summary>
     /// Token Data DTO
     /// </summary>
-    public class TokenData
+    public class TokenData : IDTO
     {
         public string Token { get; set; }
 
