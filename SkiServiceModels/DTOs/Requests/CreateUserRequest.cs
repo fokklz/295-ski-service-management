@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using SkiServiceModels.Enums;
+using SkiServiceModels.Interfaces;
 
 namespace SkiServiceModels.DTOs.Requests
 {
     /// <summary>
     /// Create User Request DTO
     /// </summary>
-    public class CreateUserRequest
+    public class CreateUserRequest : IRequestDTO
     {
         [Required]
         [StringLength(50)]
