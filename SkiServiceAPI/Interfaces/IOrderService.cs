@@ -11,5 +11,6 @@ namespace SkiServiceAPI.Interfaces
         Task<TaskResult<IEnumerable<object>>> GetByPriorityAsync(int priorityId);
         Task<TaskResult<IEnumerable<object>>> GetByStateAsync(int stateId);
         Task<TaskResult<IEnumerable<object>>> GetByServiceAsync(int serviceId);
+        Task CreateSeed();
     }
 }

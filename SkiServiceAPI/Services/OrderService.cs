@@ -96,5 +96,55 @@ namespace SkiServiceAPI.Services
 
             return ResolveList(orders);
         }
+
+        /// <summary>
+        /// Good for now. allows to create default data
+        /// </summary>
+        public async Task CreateSeed()
+        {
+            // Extended lists of names, emails, and phones
+            string[] names = {
+                "Alex", "Jamie", "Jordan", "Sam", "Pat",
+                "Taylor", "Casey", "Morgan", "Terry", "Cameron",
+                "Reese", "Quinn", "Drew", "Skyler", "Blair"
+            };
+            string[] emails = {
+                "alex@example.com", "jamie@example.com", "jordan@example.com", "sam@example.com", "pat@example.com",
+                "taylor@example.com", "casey@example.com", "morgan@example.com", "terry@example.com", "cameron@example.com",
+                "reese@example.com", "quinn@example.com", "drew@example.com", "skyler@example.com", "blair@example.com"
+            };
+            string[] phones = {
+                "1234567890", "0987654321", "1122334455", "5566778899", "6677889900",
+                "1112223333", "4445556666", "7778889999", "0001112222", "3334445555",
+                "6667778888", "9990001111", "2223334444", "5556667777", "8889990000"
+            };
+
+            int[] extraDays = { -1, 0, 1 };
+
+            int[] services = { 1, 2, 3, 4, 5 };
+            int[] priorities = { 1, 2, 3 };
+
+            // Randomly select one item from each list
+            Random rnd = new Random();
+            string name = names[rnd.Next(names.Length)];
+            string email = emails[rnd.Next(emails.Length)];
+            string phone = phones[rnd.Next(phones.Length)];
+            DateTime created = DateTime.Now.AddDays(extraDays[rnd.Next(extraDays.Length)]);
+
+            // Create a new Order
+            var order = new Order
+            {
+                ServiceId = services[rnd.Next(services.Length)],
+                PriorityId = priorities[rnd.Next(priorities.Length)],
+                Name = name,
+                Email = email,
+                Phone = phone,
+                Created = created,
+                IsDeleted = false
+            };
+
+            // Add the new Order to the database
+            await _context.Orders.AddAsync(order);
+        }
     }
 }

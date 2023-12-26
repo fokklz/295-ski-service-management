@@ -94,6 +94,7 @@ namespace SkiServiceAPI.Data
                 new State { Id = 3, Name = "Abgeschlossen" }
             );
 
+            /*
             modelBuilder.Entity<Order>().HasData(
                 new Order
                 {
@@ -218,6 +219,7 @@ namespace SkiServiceAPI.Data
                     IsDeleted = false
                 }
             );
+            */
         }
     }
 }

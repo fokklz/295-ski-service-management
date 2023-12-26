@@ -164,6 +164,7 @@ namespace SkiServiceAPI
             await dbContext.MigrateAsync();
 
             var usermanager = scopedServices.GetRequiredService<IUserService>();
+            var ordersManager = scopedServices.GetRequiredService<IOrderService>();
 
             if (!dbContext.Users.Any())
             {
@@ -178,6 +179,15 @@ namespace SkiServiceAPI
                 await usermanager.CreateSeed("Mitarbeiter 8", "m8");
                 await usermanager.CreateSeed("Mitarbeiter 9", "m9");
                 await usermanager.CreateSeed("Mitarbeiter 10", "m10");
+            }
+
+            if (!dbContext.Orders.Any())
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    await ordersManager.CreateSeed();
+                }
+                await dbContext.SaveChangesAsync();
             }
         }
 
