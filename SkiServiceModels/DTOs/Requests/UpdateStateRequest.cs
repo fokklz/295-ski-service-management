@@ -9,6 +9,6 @@ namespace SkiServiceModels.DTOs.Requests
     public class UpdateStateRequest : IRequestDTO
     {
         [StringLength(20)]
-        public string? Name { get; set; }
+        public string? Name { get; set; } = null;
     }
 }

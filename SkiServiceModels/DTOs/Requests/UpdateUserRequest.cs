@@ -10,13 +10,13 @@ namespace SkiServiceModels.DTOs.Requests
     public class UpdateUserRequest : IRequestDTO
     {
         [StringLength(50)]
-        public string? Username { get; set; }
+        public string? Username { get; set; } = null;
 
         [MinLength(8)]
-        public string? Password { get; set; }
+        public string? Password { get; set; } = null;
 
-        public bool? Locked { get; set; }
+        public bool? Locked { get; set; } = null;
 
-        public RoleNames? Role { get; set; }
+        public RoleNames? Role { get; set; } = null;
     }
 }

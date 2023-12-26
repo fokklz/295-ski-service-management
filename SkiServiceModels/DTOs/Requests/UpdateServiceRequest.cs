@@ -9,12 +9,12 @@ namespace SkiServiceModels.DTOs.Requests
     public class UpdateServiceRequest : IRequestDTO
     {
         [StringLength(50)]
-        public string? Name { get; set; }
+        public string? Name { get; set; } = null;
 
         [StringLength(1000)]
-        public string? Description { get; set; }
+        public string? Description { get; set; } = null;
 
         [Range(1, 1000)]
-        public int? Price { get; set; }
+        public int? Price { get; set; } = null;
     }
 }
