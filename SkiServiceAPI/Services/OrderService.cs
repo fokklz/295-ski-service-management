@@ -5,6 +5,7 @@ using SkiServiceAPI.Interfaces;
 using SkiServiceModels;
 using SkiServiceModels.DTOs.Requests;
 using SkiServiceModels.DTOs.Responses;
+using System.Diagnostics;
 
 namespace SkiServiceAPI.Services
 {
@@ -136,6 +137,7 @@ namespace SkiServiceAPI.Services
             {
                 ServiceId = services[rnd.Next(services.Length)],
                 PriorityId = priorities[rnd.Next(priorities.Length)],
+                StateId = 1,
                 Name = name,
                 Email = email,
                 Phone = phone,
