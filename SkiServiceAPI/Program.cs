@@ -169,16 +169,16 @@ namespace SkiServiceAPI
             if (!dbContext.Users.Any())
             {
                 await usermanager.CreateSeed("Superadmin", "super", RoleNames.SuperAdmin);
-                await usermanager.CreateSeed("Mitarbeiter 1", "m1");
-                await usermanager.CreateSeed("Mitarbeiter 2", "m2");
-                await usermanager.CreateSeed("Mitarbeiter 3", "m3");
-                await usermanager.CreateSeed("Mitarbeiter 4", "m4");
-                await usermanager.CreateSeed("Mitarbeiter 5", "m5");
-                await usermanager.CreateSeed("Mitarbeiter 6", "m6");
-                await usermanager.CreateSeed("Mitarbeiter 7", "m7");
-                await usermanager.CreateSeed("Mitarbeiter 8", "m8");
-                await usermanager.CreateSeed("Mitarbeiter 9", "m9");
-                await usermanager.CreateSeed("Mitarbeiter 10", "m10");
+                await usermanager.CreateSeed("Mitarbeiter 1", "m1", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 2", "m2", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 3", "m3", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 4", "m4", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 5", "m5", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 6", "m6", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 7", "m7", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 8", "m8", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 9", "m9", RoleNames.SuperAdmin);
+                await usermanager.CreateSeed("Mitarbeiter 10", "m10", RoleNames.SuperAdmin);
             }
 
             if (!dbContext.Orders.Any())
