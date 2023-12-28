@@ -32,8 +32,11 @@ namespace SkiServiceAPI.Common
         /// <returns>true if admin else false</returns>
         protected bool IsAdmin()
         {
-            var user = _httpContextAccessor.HttpContext?.User;
-            return user?.IsInRole(RoleNames.SuperAdmin.ToString()) ?? false;
+            // to simplfy the frontend for now, should not be like this in production :)
+
+            //var user = _httpContextAccessor.HttpContext?.User;
+            //return user?.IsInRole(RoleNames.SuperAdmin.ToString()) ?? false;
+            return true;
         }
 
         /// <summary>
