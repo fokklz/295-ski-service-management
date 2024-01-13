@@ -7,6 +7,6 @@ namespace SkiServiceModels.DTOs.Responses
     /// </summary>
     public class DeleteResponse : IResponseDTO
     {
-        public int Id { get; set; }
+        public int Count { get; set; }
     }
 }

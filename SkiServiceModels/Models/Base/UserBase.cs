@@ -2,17 +2,12 @@
 using SkiServiceModels.Enums;
 using SkiServiceModels.Interfaces;
 
-#nullable disable
-
-namespace SkiServiceModels
+namespace SkiServiceModels.Models.Base
 {
-    public class User : IGenericModel
+    public class UserBase : IGenericModel
     {
-        [Key]
-        public int Id { get; set; }
-
         [StringLength(50)]
-        public string Username { get; set; }
+        public required string Username { get; set; }
 
         public byte[] PasswordHash { get; set; }
 
@@ -24,8 +19,9 @@ namespace SkiServiceModels
 
         public int LoginAttempts { get; set; } = 0;
 
+        public string RefreshToken { get; set; } = null;
+
         public bool IsDeleted { get; set; } = false;
 
-        public string RefreshToken { get; set; } = null;
     }
 }

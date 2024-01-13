@@ -1,18 +1,15 @@
 ﻿using SkiServiceModels.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace SkiServiceModels
+namespace SkiServiceModels.Models.Base
 {
-    public class Service : IGenericModel
+    public class ServiceBase : IGenericModel
     {
-        [Key]
-        public int Id { get; set; }
-
         [StringLength(50)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [StringLength(1000)]
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         public int Price { get; set; }
 

@@ -1,9 +1,10 @@
 ﻿using SkiServiceModels.Interfaces;
+using SkiServiceModels.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace SkiServiceModels
+namespace SkiServiceModels.Models.EF
 {
-    public class Order : IGenericModel
+    public class Order : OrderBase, IGenericEFModel
     {
         [Key]
         public int Id { get; set; }
@@ -17,24 +18,7 @@ namespace SkiServiceModels
         // Navigation properties
         public virtual User? User { get; set; }
         public virtual Service Service { get; set; }
-        public virtual Priority Priority { get; set; }
+        public virtual Priority Priority { get; set; } 
         public virtual State State { get; set; }
-
-        [StringLength(50)]
-        public string Name { get; set; }
-
-        [StringLength(100)]
-        public string Email { get; set; }
-
-        [StringLength(20)]
-        public string Phone { get; set; }
-
-        [StringLength(1000)]
-        public string? Note { get; set; } = null;
-
-        public DateTime Created { get; set; } = DateTime.Now;
-
-        public bool IsDeleted { get; set; } = false;
-
     }
 }

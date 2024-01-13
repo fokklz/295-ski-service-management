@@ -15,6 +15,8 @@ $outputFile = Join-Path $workingDirectory "README.md"
 
 $directories = @{
     "MODEL" = "Models"
+    "EFMODEL" = "Models\EF"
+    "BSONMODEL" = "Models\BSON"
     "DTO" = "DTOs"
     "REQDTO" = "DTOs\Requests"
     "RESDTO" = "DTOs\Responses"

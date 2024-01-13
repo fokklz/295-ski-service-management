@@ -10,4 +10,8 @@
     <ItemGroup>
 	    <None Include="README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
+	
+    <ItemGroup>
+      <PackageReference Include="MongoDB.Bson" Version="2.23.1" />
+    </ItemGroup>
 </Project>

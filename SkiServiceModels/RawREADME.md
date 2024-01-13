@@ -1,65 +1,87 @@
-# SkiServiceModels
-
-# Contents
+# SkiServiceModels <!-- omit in toc -->
 
 <!--TOC-->
-  - [Core Models](#core-models)
-    - [Service Model](#service-model)
-    - [Priority Model](#priority-model)
-    - [State Model](#state-model)
-    - [User Model](#user-model)
-    - [Order Model](#order-model)
-  - [DTOs](#dtos)
-    - [TokenData](#tokendata)
-    - [ErrorData](#errordata)
-  - [Response DTOs](#response-dtos)
-    - [DeleteResponse](#deleteresponse)
-    - [LoginResponse](#loginresponse)
-    - [OrderResponse](#orderresponse)
-    - [PriorityResponse](#priorityresponse)
-    - [ServiceResponse](#serviceresponse)
-    - [StateResponse](#stateresponse)
-    - [UserResponse](#userresponse)
-    - [ErrorResponse](#errorresponse)
-  - [Request DTOs](#request-dtos)
-    - [LoginRequest](#loginrequest)
-    - [RefreshRequest](#refreshrequest)
-    - [CreateOrderRequest](#createorderrequest)
-    - [CreatePriorityRequest](#createpriorityrequest)
-    - [CreateServiceRequest](#createservicerequest)
-    - [CreateStateRequest](#createstaterequest)
-    - [CreateUserRequest](#createuserrequest)
-    - [UpdateOrderRequest](#updateorderrequest)
-    - [UpdatePriorityRequest](#updatepriorityrequest)
-    - [UpdateServiceRequest](#updateservicerequest)
-    - [UpdateStateRequest](#updatestaterequest)
-    - [UpdateUserRequest](#updateuserrequest)
-  - [Enums](#enums)
-    - [RoleNames Enum](#rolenames-enum)
-  - [Interfaces](#interfaces)
-    - [IGenericModel Interface](#igenericmodel-interface)
-    - [DTO Interface](#dto-interface)
-    - [Response DTO Interface](#response-dto-interface)
-    - [Request DTO Interface](#request-dto-interface)
-    - [ILoginRequest Interface](#iloginrequest-interface)
+- [EF Models](#ef-models)
+  - [Service Model](#service-model)
+  - [Priority Model](#priority-model)
+  - [State Model](#state-model)
+  - [User Model](#user-model)
+  - [Order Model](#order-model)
+- [BSON Models](#bson-models)
+  - [Service Model](#service-model-1)
+  - [Priority Model](#priority-model-1)
+  - [State Model](#state-model-1)
+  - [User Model](#user-model-1)
+  - [Order Model](#order-model-1)
+- [DTOs](#dtos)
+  - [TokenData](#tokendata)
+  - [ErrorData](#errordata)
+- [Response DTOs](#response-dtos)
+  - [DeleteResponse](#deleteresponse)
+  - [LoginResponse](#loginresponse)
+  - [OrderResponse](#orderresponse)
+  - [PriorityResponse](#priorityresponse)
+  - [ServiceResponse](#serviceresponse)
+  - [StateResponse](#stateresponse)
+  - [UserResponse](#userresponse)
+- [Request DTOs](#request-dtos)
+  - [LoginRequest](#loginrequest)
+  - [RefreshRequest](#refreshrequest)
+  - [CreateOrderRequest](#createorderrequest)
+  - [CreatePriorityRequest](#createpriorityrequest)
+  - [CreateServiceRequest](#createservicerequest)
+  - [CreateStateRequest](#createstaterequest)
+  - [CreateUserRequest](#createuserrequest)
+  - [UpdateOrderRequest](#updateorderrequest)
+  - [UpdatePriorityRequest](#updatepriorityrequest)
+  - [UpdateServiceRequest](#updateservicerequest)
+  - [UpdateStateRequest](#updatestaterequest)
+  - [UpdateUserRequest](#updateuserrequest)
+- [Enums](#enums)
+  - [RoleNames Enum](#rolenames-enum)
+- [Interfaces](#interfaces)
+  - [IGenericModel Interface](#igenericmodel-interface)
+  - [IGenericEFModel Interface](#igenericefmodel-interface)
+  - [IGenericBSONModel Interface](#igenericbsonmodel-interface)
+  - [DTO Interface](#dto-interface)
+  - [Response DTO Interface](#response-dto-interface)
+  - [Request DTO Interface](#request-dto-interface)
+  - [ILoginRequest Interface](#iloginrequest-interface)
 <!--/TOC-->
 
-## Core Models
+## EF Models
 
 ### Service Model
-<<MODEL::Service>>
+<<EFMODEL::Service>>
 
 ### Priority Model
-<<MODEL::Priority>>
+<<EFMODEL::Priority>>
 
 ### State Model
-<<MODEL::State>>
+<<EFMODEL::State>>
 
 ### User Model
-<<MODEL::User>>
+<<EFMODEL::User>>
 
 ### Order Model
-<<MODEL::Order>>
+<<EFMODEL::Order>>
+
+## BSON Models
+
+### Service Model
+<<BSONMODEL::Service>>
+
+### Priority Model
+<<BSONMODEL::Priority>>
+
+### State Model
+<<BSONMODEL::State>>
+
+### User Model
+<<BSONMODEL::User>>
+
+### Order Model
+<<BSONMODEL::Order>>
 
 ## DTOs
 
@@ -148,6 +170,19 @@ This DTO is used for any error data sent by the API.
 Base Interface for all models.
 
 <<INTERFACE::IGenericModel>>
+
+
+### IGenericEFModel Interface
+
+Base Interface for all models.
+
+<<INTERFACE::IGenericEFModel>>
+
+### IGenericBSONModel Interface
+
+Base Interface for all models.
+
+<<INTERFACE::IGenericBSONModel>>
 
 ### DTO Interface
 

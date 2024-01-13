@@ -1,16 +1,12 @@
 ﻿using SkiServiceModels.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace SkiServiceModels
+namespace SkiServiceModels.Models.Base
 {
-    public class State : IGenericModel
+    public class StateBase : IGenericModel
     {
-
-        [Key]
-        public int Id { get; set; }
-
         [StringLength(20)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 
