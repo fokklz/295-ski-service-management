@@ -98,7 +98,7 @@ function Extract-ClassDefinition {
     if($Type -eq 'EFMODEL' -or $Type -eq 'BSONMODEL' ){
         return "$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
     }else{
-        return "[back up](#contents)`r`n$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
+        return "[back up](#contents-)`r`n$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
     }
 }
 
