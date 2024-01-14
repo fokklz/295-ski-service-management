@@ -5,6 +5,7 @@ using SkiServiceModels.Models.Base;
 
 namespace SkiServiceModels.Models.BSON
 {
+    [BsonIgnoreExtraElements]
     public class State : StateBase, IGenericBSONModel
     {
         [BsonId]
