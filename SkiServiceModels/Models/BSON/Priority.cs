@@ -9,7 +9,6 @@ namespace SkiServiceModels.Models.BSON
     public class Priority : PriorityBase, IGenericBSONModel
     {
         [BsonId]
-        [BsonElement("_id")]
         public ObjectId Id { get; set; }
     }
 }

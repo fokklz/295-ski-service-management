@@ -9,7 +9,6 @@ namespace SkiServiceModels.Models.BSON
     public class Order : OrderBase, IGenericBSONModel
     {
         [BsonId]
-        [BsonElement("_id")]
         public ObjectId Id { get; set; }
 
         [BsonElement("priority_id")]
@@ -24,14 +23,21 @@ namespace SkiServiceModels.Models.BSON
         [BsonElement("user_id")]
         public ObjectId? UserId { get; set; } = null;
 
-        [BsonIgnore]
+        [BsonElement("priority")]
         public virtual Priority Priority { get; set; }
-        [BsonIgnore]
+        public bool ShouldSerializePriority() => false;
+
+        [BsonElement("service")]
         public virtual Service Service { get; set; }
-        [BsonIgnore]
+        public bool ShouldSerializeService() => false;
+
+        [BsonElement("state")]
         public virtual State State { get; set; }
-        [BsonIgnore]
+        public bool ShouldSerializeState() => false;
+
+        [BsonElement("user")]
         public virtual User? User { get; set; }
+        public bool ShouldSerializeUser() => false;
 
     }
 }
