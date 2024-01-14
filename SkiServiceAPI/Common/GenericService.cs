@@ -9,7 +9,7 @@ using SkiServiceModels.Interfaces;
 namespace SkiServiceAPI.Common
 {
     public class GenericService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> : IBaseService<T, TResponseBase, TResponseAdmin, TUpdate, TCreate>
-        where T : class, IGenericModel
+        where T : class, IGenericEFModel
         where TResponseBase : class
         where TResponseAdmin : class, TResponseBase
         where TUpdate : class
@@ -164,7 +164,7 @@ namespace SkiServiceAPI.Common
             await _context.SaveChangesAsync();
             return TaskResult<DeleteResponse>.Success(new DeleteResponse
             {
-                Id = resolvedEntity.Id,
+                Count = 1
             });
         }
     }

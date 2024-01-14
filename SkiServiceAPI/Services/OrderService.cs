@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
-using SkiServiceModels;
 using SkiServiceModels.DTOs.Requests;
 using SkiServiceModels.DTOs.Responses;
-using System.Diagnostics;
+using SkiServiceModels.Models.Base;
+using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Services
 {

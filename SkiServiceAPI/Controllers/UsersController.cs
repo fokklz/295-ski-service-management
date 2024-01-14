@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
-using SkiServiceModels;
 using SkiServiceModels.DTOs.Requests;
 using SkiServiceModels.DTOs.Responses;
+using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Controllers
 {

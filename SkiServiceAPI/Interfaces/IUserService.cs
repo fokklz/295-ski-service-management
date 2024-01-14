@@ -1,8 +1,8 @@
 ﻿using SkiServiceAPI.Common;
-using SkiServiceModels;
 using SkiServiceModels.DTOs.Requests;
 using SkiServiceModels.DTOs.Responses;
 using SkiServiceModels.Enums;
+using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Interfaces
 {

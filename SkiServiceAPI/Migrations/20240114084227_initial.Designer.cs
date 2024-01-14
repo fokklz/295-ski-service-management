@@ -12,7 +12,7 @@ using SkiServiceAPI.Data;
 namespace SkiServiceAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231226035040_initial")]
+    [Migration("20240114084227_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -28,7 +28,7 @@ namespace SkiServiceAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SkiServiceModels.Order", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace SkiServiceAPI.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SkiServiceModels.Priority", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.Priority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,7 +133,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceModels.Service", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +212,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceModels.State", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,7 +253,7 @@ namespace SkiServiceAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SkiServiceModels.User", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,9 +271,11 @@ namespace SkiServiceAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RefreshToken")
@@ -284,39 +286,39 @@ namespace SkiServiceAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("[Username] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SkiServiceModels.Order", b =>
+            modelBuilder.Entity("SkiServiceModels.Models.EF.Order", b =>
                 {
-                    b.HasOne("SkiServiceModels.Priority", "Priority")
+                    b.HasOne("SkiServiceModels.Models.EF.Priority", "Priority")
                         .WithMany()
                         .HasForeignKey("PriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceModels.Service", "Service")
+                    b.HasOne("SkiServiceModels.Models.EF.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceModels.State", "State")
+                    b.HasOne("SkiServiceModels.Models.EF.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SkiServiceModels.User", "User")
+                    b.HasOne("SkiServiceModels.Models.EF.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 

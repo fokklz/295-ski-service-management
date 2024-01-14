@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
-using SkiServiceModels;
 using SkiServiceModels.DTOs.Requests;
 using SkiServiceModels.DTOs.Responses;
 using SkiServiceModels.Enums;
+using SkiServiceModels.Models.EF;
 using System.Security.Claims;
 
 namespace SkiServiceAPI.Services

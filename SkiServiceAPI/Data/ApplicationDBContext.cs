@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkiServiceAPI.Interfaces;
-using SkiServiceModels;
+using SkiServiceModels.Models.Base;
+using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Data
 {

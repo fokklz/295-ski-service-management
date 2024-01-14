@@ -16,7 +16,7 @@ namespace SkiServiceAPI.Common
     [ApiController]
     [Route("api/[controller]")]
     public class GenericController<T, TResponseBase, TResponseAdmin, TUpdate, TCreate> : ControllerBase
-        where T : class, IGenericModel
+        where T : class, IGenericEFModel
         where TResponseBase : class
         where TResponseAdmin : class, TResponseBase
         where TUpdate : class

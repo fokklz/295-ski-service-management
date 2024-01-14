@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SkiServiceModels;
+using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Interfaces
 {
