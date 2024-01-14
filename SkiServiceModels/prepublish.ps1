@@ -14,6 +14,7 @@ $inputFile = Join-Path $workingDirectory "RawREADME.md"
 $outputFile = Join-Path $workingDirectory "README.md"
 
 $directories = @{
+    "COREMODEL" = "Models"
     "MODEL" = "Models\Base"
     "EFMODEL" = "Models\EF"
     "BSONMODEL" = "Models\BSON"

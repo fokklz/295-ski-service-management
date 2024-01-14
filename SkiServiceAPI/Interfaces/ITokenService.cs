@@ -1,6 +1,6 @@
 ﻿using SkiServiceAPI.Common;
-using SkiServiceAPI.Models;
 using SkiServiceModels.DTOs;
+using SkiServiceModels.Models;
 using SkiServiceModels.Models.EF;
 
 namespace SkiServiceAPI.Interfaces

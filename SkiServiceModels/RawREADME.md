@@ -1,6 +1,10 @@
 # SkiServiceModels <!-- omit in toc -->
 
+## Contents <!-- omit in toc -->
+
 <!--TOC-->
+- [Core Models](#core-models)
+  - [RefreshResult](#refreshresult)
 - [EF Models](#ef-models)
   - [Service Model](#service-model)
   - [Priority Model](#priority-model)
@@ -48,6 +52,12 @@
   - [Request DTO Interface](#request-dto-interface)
   - [ILoginRequest Interface](#iloginrequest-interface)
 <!--/TOC-->
+
+## Core Models
+
+### RefreshResult
+
+<<COREMODEL::RefreshResult>>
 
 ## EF Models
 

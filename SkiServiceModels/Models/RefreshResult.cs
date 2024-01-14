@@ -1,7 +1,7 @@
 ﻿using SkiServiceModels.DTOs;
 using SkiServiceModels.Models.EF;
 
-namespace SkiServiceAPI.Models
+namespace SkiServiceModels.Models
 {
     public class RefreshResult
     {

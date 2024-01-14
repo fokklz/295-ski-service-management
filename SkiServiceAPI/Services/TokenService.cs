@@ -1,8 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SkiServiceAPI.Common;
 using SkiServiceAPI.Interfaces;
-using SkiServiceAPI.Models;
 using SkiServiceModels.DTOs;
+using SkiServiceModels.Models;
 using SkiServiceModels.Models.EF;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
