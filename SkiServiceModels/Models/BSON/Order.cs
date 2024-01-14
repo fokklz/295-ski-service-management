@@ -8,6 +8,7 @@ namespace SkiServiceModels.Models.BSON
     public class Order : OrderBase, IGenericBSONModel
     {
         [BsonId]
+        [BsonElement("_id")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
