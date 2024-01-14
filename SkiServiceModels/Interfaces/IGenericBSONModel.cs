@@ -1,7 +1,9 @@
-﻿namespace SkiServiceModels.Interfaces
+﻿using MongoDB.Bson;
+
+namespace SkiServiceModels.Interfaces
 {
     public interface IGenericBSONModel : IGenericModel
     {
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
     }
 }
