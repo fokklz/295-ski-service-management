@@ -14,7 +14,7 @@ $inputFile = Join-Path $workingDirectory "RawREADME.md"
 $outputFile = Join-Path $workingDirectory "README.md"
 
 $directories = @{
-    "MODEL" = "Models"
+    "MODEL" = "Models\Base"
     "EFMODEL" = "Models\EF"
     "BSONMODEL" = "Models\BSON"
     "DTO" = "DTOs"
@@ -93,7 +93,12 @@ function Extract-ClassDefinition {
     $codeBlockStart = '```csharp'
     $codeBlockEnd = '```'
     $codeBlockInner = $classContent -join "`r`n"
-    return "[back up](#contents)`r`n$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
+
+    if($Type -eq 'EFMODEL' -or $Type -eq 'BSONMODEL' ){
+        return "$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
+    }else{
+        return "[back up](#contents)`r`n$codeBlockStart`r`n$codeBlockInner`r`n$codeBlockEnd`r`n"
+    }
 }
 
 $content = Get-Content $inputFile

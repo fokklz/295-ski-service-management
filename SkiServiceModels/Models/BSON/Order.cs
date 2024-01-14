@@ -11,9 +11,17 @@ namespace SkiServiceModels.Models.BSON
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+
+        [BsonElement("priority_id")]
         public string PriorityId { get; set; }
+
+        [BsonElement("service_id")]
         public string ServiceId { get; set; }
+
+        [BsonElement("state_id")]
         public string StateId { get; set; }
+
+        [BsonElement("user_id")]
         public string? UserId { get; set; } = null;
 
         [BsonIgnore]

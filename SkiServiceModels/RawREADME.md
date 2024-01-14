@@ -52,35 +52,45 @@
 ## EF Models
 
 ### Service Model
+<<MODEL::ServiceBase>>
 <<EFMODEL::Service>>
 
 ### Priority Model
+<<MODEL::PriorityBase>>
 <<EFMODEL::Priority>>
 
 ### State Model
+<<MODEL::StateBase>>
 <<EFMODEL::State>>
 
 ### User Model
+<<MODEL::UserBase>>
 <<EFMODEL::User>>
 
 ### Order Model
+<<MODEL::OrderBase>>
 <<EFMODEL::Order>>
 
 ## BSON Models
 
 ### Service Model
+<<MODEL::ServiceBase>>
 <<BSONMODEL::Service>>
 
 ### Priority Model
+<<MODEL::PriorityBase>>
 <<BSONMODEL::Priority>>
 
 ### State Model
+<<MODEL::StateBase>>
 <<BSONMODEL::State>>
 
 ### User Model
+<<MODEL::UserBase>>
 <<BSONMODEL::User>>
 
 ### Order Model
+<<MODEL::OrderBase>>
 <<BSONMODEL::Order>>
 
 ## DTOs
